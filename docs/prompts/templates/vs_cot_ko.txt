@@ -1,0 +1,29 @@
+Task:
+{TASK}
+
+Step‑1 (CoT):
+- 서로 다른 접근법 3개(라벨 A/B/C)를 간단히 요약하라(각 2~4문장).
+
+Step‑2 (Answer):
+- 각 접근법으로부터 최종 답안을 생성하라.
+
+Step‑3 (Pack JSON):
+- 아래 STRICT JSON만 출력하라(마크다운/설명 금지):
+{
+  "cot": [
+    { "id":"A", "rationale":"..." },
+    { "id":"B", "rationale":"..." },
+    { "id":"C", "rationale":"..." }
+  ],
+  "candidates": [
+    { "id":"A1", "from_cot":"A", "text":"...", "prob":0.XXX, "style_tag":["tone:...","perspective:..."] },
+    { "id":"B1", "from_cot":"B", "text":"...", "prob":0.XXX, "style_tag":["structure:...","persona:..."] },
+    { "id":"C1", "from_cot":"C", "text":"...", "prob":0.XXX, "style_tag":["..."] }
+  ]
+}
+
+Constraints:
+- sum(prob) ≈ 1 (±0.05); 3 decimals; 길이 제한 {MAX_TOKENS}
+- 후보 간 style_tag는 최소 2축에서 달라야 함
+- STRICT JSON only
+

@@ -1,0 +1,22 @@
+Task:
+{TASK}
+
+Instruction:
+- Produce {K} diverse candidates for the task.
+- Output STRICT JSON array only (no markdown/explanation), using:
+  [
+    { "id":"A", "text":"...", "prob":0.XXX, "style_tag":["tone:...","perspective:...","structure:...","persona:..."] },
+    ...
+  ]
+- Constraints:
+  - prob in [0,1], 3 decimals; sum(prob) ≈ 1 (±0.05)
+  - At least two style axes differ across candidates (tone/perspective/structure/persona)
+  - Max length per candidate: {MAX_CHARS} chars or {MAX_TOKENS} tokens
+  - JSON only
+- Guidance:
+  - Increase diversity via tone/perspective/structure/persona
+  - Keep factuality/safety; hedge uncertainty
+
+Global rule:
+- STRICT JSON only. No prose/markdown.
+

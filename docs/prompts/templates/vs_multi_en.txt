@@ -1,0 +1,23 @@
+Task:
+{TASK}
+
+Steps to simulate:
+1) Initial: produce {K} diverse initial candidates
+2) Rewrite: rewrite each from a different perspective/tone/structure
+3) Synthesis: (optional) merge two candidates into a stronger version
+
+Output STRICT JSON only:
+{
+  "initial": [ { "id":"I1", "text":"...", "style_tag":["..."] }, ... ],
+  "rewrite": [ { "from":"I1", "id":"R1", "text":"...", "style_tag":["..."] }, ... ],
+  "final": [
+    { "id":"F1", "from":["I1","R1"], "text":"...", "prob":0.XXX, "style_tag":["..."] },
+    ...
+  ]
+}
+
+Constraints:
+- sum(final[].prob) ≈ 1 (±0.05); 3 decimals
+- style diversity across at least two axes; max length {MAX_TOKENS}
+- JSON only
+

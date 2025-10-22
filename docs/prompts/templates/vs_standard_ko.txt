@@ -1,0 +1,22 @@
+Task:
+{TASK}
+
+Instruction:
+- 과제에 대한 ‘서로 다른’ 후보 {K}개를 생성하라.
+- 각 후보는 아래 JSON 스키마를 만족해야 한다(배열로만 출력; 마크다운/설명 금지):
+  [
+    { "id":"A", "text":"...", "prob":0.XXX, "style_tag":["tone:...","perspective:...","structure:...","persona:..."] },
+    ...
+  ]
+- 제약:
+  - prob는 0~1, 소수점 3자리, 모든 후보의 prob 합은 1±0.05
+  - 후보 간 style_tag는 최소 2개 축에서 달라야 함 (tone/perspective/structure/persona)
+  - 각 후보 text 길이 제한: {MAX_CHARS}자 또는 {MAX_TOKENS}토큰
+  - JSON 이외의 출력 금지(설명/마크다운 X)
+- 가이드:
+  - 다양성: 문체/관점/구조/페르소나를 바꿔라
+  - 사실성/안전성 유지, 불확실할 때 보수적 서술
+
+Global rule:
+- 반드시 STRICT JSON만 출력하라. 주석/마크다운/추가 문장 금지.
+

@@ -1,0 +1,13 @@
+## NEXT_ACTION_DSL
+- Use exactly these forms. Lines matching are auto-executed.
+search_repo 'query'
+find_files pattern
+read_file path[:start-end]
+run_cmd "command"
+edit_file path old => new      # small patch only, keep diff
+write_notes "summary or findings"
+
+- Dangerous steps must include [APPROVE].
+- Never print secrets. For .env or keys: report presence only.
+- One NEXT_ACTION per line. No extra prose on these lines.
+

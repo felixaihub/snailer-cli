@@ -1,0 +1,10 @@
+## DOMAIN_GUIDANCE: mobile
+OPTIONS: 아키텍처/빌드/테스트/CI 관점 다른 접근 3~5개.
+SCORECARD: correctness 0.45, safety 0.25, relevance 0.20, novelty 0.10.
+NEXT_ACTION order:
+run_cmd "xcodebuild -list" or "./gradlew tasks"
+search_repo 'Package.swift|build.gradle|pod'
+read_file ios/... or android/....:1-200
+run_cmd "xcodebuild test" or "./gradlew test"
+write_notes "모듈/테스트 현황, 다음 미소수정 후보"
+

@@ -1,0 +1,9 @@
+Your previous output violated the JSON schema. Please output a corrected JSON ONLY:
+- Fill missing fields. If prob<0 or NaN, set to 0.
+- If sum(prob)==0, distribute uniformly.
+- Re‑normalize probs to sum 1±0.05 after rounding to 3 decimals.
+- STRICT JSON only (no markdown or commentary).
+
+Input(JSON): {BROKEN_JSON}
+Schema: same as the VS template requested earlier
+

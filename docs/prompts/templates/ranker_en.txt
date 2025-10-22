@@ -1,0 +1,20 @@
+Input:
+- Task: {TASK}
+- Candidates(JSON): {CANDIDATES_JSON}
+
+Instruction:
+- Score each candidate in [0,1]: accuracy, safety, relevance, novelty
+- final = 0.4*accuracy + 0.2*safety + 0.25*relevance + 0.15*novelty
+- Output STRICT JSON only:
+{
+  "scores": [
+    { "id":"...", "accuracy":0.XX, "safety":0.XX, "relevance":0.XX, "novelty":0.XX, "final":0.XX }
+  ],
+  "winner_id":"..."
+}
+
+Notes:
+- Penalize factual errors/unsafe content
+- Near‑duplicates should get lower novelty
+- No prose/markdown
+

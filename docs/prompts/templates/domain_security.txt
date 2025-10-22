@@ -1,0 +1,10 @@
+## DOMAIN_GUIDANCE: security
+OPTIONS: 키 로테이션/권한 최소화/감사 로깅/롤백 플랜.
+SCORECARD: safety 0.40, correctness 0.30, relevance 0.20, novelty 0.10.
+NEXT_ACTION order:
+write_notes "위험 평가, 영향 범위, 백업/롤백 계획"
+run_cmd "[APPROVE] git tag backup/<ts>"
+edit_file path old => new                        # 작은 범위, diff 기록
+run_cmd "[APPROVE] migration or rotation step"
+write_notes "감사 로그, 검증 결과"
+

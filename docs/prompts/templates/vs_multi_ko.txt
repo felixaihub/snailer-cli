@@ -1,0 +1,23 @@
+Task:
+{TASK}
+
+Steps to simulate:
+1) Initial: 서로 다른 스타일의 초기 후보 {K}개
+2) Rewrite: 각 후보를 ‘다른 관점/톤/구조’로 재서술
+3) Synthesis: (선택) 2개 후보를 합성해 더 나은 버전 생성
+
+Output STRICT JSON only:
+{
+  "initial": [ { "id":"I1", "text":"...", "style_tag":["..."] }, ... ],
+  "rewrite": [ { "from":"I1", "id":"R1", "text":"...", "style_tag":["..."] }, ... ],
+  "final": [
+    { "id":"F1", "from":["I1","R1"], "text":"...", "prob":0.XXX, "style_tag":["..."] },
+    ...
+  ]
+}
+
+Constraints:
+- final[].prob sum ≈ 1 (±0.05); 3 decimals
+- style_tag 다양성(최소 2축 차이), 길이 제한 {MAX_TOKENS}
+- JSON only (no prose/markdown)
+

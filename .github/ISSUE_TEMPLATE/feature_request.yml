@@ -1,0 +1,12 @@
+name: Feature request
+description: Suggest an improvement for installer/docs/packaging
+labels: [enhancement]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale

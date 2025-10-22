@@ -1,0 +1,10 @@
+## DOMAIN_GUIDANCE: web
+OPTIONS: 라우팅/컨트롤러/서비스/DB 각 초점 접근 3~5개.
+SCORECARD: correctness 0.40, safety 0.20, relevance 0.25, novelty 0.15.
+NEXT_ACTION order:
+find_files routes|controller|service|repository|Dockerfile|package.json
+search_repo 'GET|POST|router|controller'
+read_file src/routes/...:1-150
+run_cmd "npm run lint && npm test -s"
+write_notes "문제 위치/가설/테스트 상태"
+

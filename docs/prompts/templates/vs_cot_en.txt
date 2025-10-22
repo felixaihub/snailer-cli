@@ -1,0 +1,29 @@
+Task:
+{TASK}
+
+Step‑1 (CoT):
+- Produce 3 different reasoning paths (labels A/B/C), each 2–4 sentences.
+
+Step‑2 (Answer):
+- Generate a final answer from each path.
+
+Step‑3 (Pack JSON):
+- Output STRICT JSON only (no markdown):
+{
+  "cot": [
+    { "id":"A", "rationale":"..." },
+    { "id":"B", "rationale":"..." },
+    { "id":"C", "rationale":"..." }
+  ],
+  "candidates": [
+    { "id":"A1", "from_cot":"A", "text":"...", "prob":0.XXX, "style_tag":["tone:...","perspective:..."] },
+    { "id":"B1", "from_cot":"B", "text":"...", "prob":0.XXX, "style_tag":["structure:...","persona:..."] },
+    { "id":"C1", "from_cot":"C", "text":"...", "prob":0.XXX, "style_tag":["..."] }
+  ]
+}
+
+Constraints:
+- sum(prob) ≈ 1 (±0.05); 3 decimals; max length {MAX_TOKENS}
+- Candidates must differ on at least two style axes
+- STRICT JSON only
+

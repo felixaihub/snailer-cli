@@ -1,0 +1,8 @@
+dist/
+target/
+node_modules/
+.env
+*.tar.gz
+*.zip
+*.dSYM
+.DS_Store
