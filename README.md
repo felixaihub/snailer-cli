@@ -14,9 +14,9 @@ brew install snailer
 
 ### npm (wrapper downloads the binary)
 ```
-npm i -g @snailer/cli
+npm i -g @felixaihub/snailer
 # or
-npx @snailer/cli@latest --help
+npx @felixaihub/snailer@latest --help
 ```
 
 ## Quick Start

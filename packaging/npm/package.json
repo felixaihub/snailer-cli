@@ -1,5 +1,5 @@
 {
-  "name": "@snailer/cli",
+  "name": "@felixaihub/snailer",
   "version": "0.1.0",
   "description": "AI-powered development CLI (installer wrapper)",
   "bin": { "snailer": "bin/snailer.js" },
