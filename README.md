@@ -8,7 +8,6 @@ Note: This repository contains installers and documentation only (MIT). The Snai
 
 ### Homebrew
 ```
-brew tap felixaihub/snailer
 brew install snailer
 ```
 
