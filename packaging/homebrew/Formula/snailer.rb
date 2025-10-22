@@ -7,16 +7,16 @@ class Snailer < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/felixaihub/snailer-cli/releases/download/v0.1.0/snailer-v0.1.0-aarch64-apple-darwin.tar.gz"
-      sha256 "REPLACE_WITH_SHA256_MAC_ARM64"
+      sha256 "b560308b7757919c29986b831ef355036d85f705204a9c2a03a99a1aea270360"
     else
       url "https://github.com/felixaihub/snailer-cli/releases/download/v0.1.0/snailer-v0.1.0-x86_64-apple-darwin.tar.gz"
-      sha256 "REPLACE_WITH_SHA256_MAC_X64"
+      sha256 "83c2849dc3f1b97af75e40ef47f827a67d77b601c61dfca889f6288e73615164"
     end
   end
 
   on_linux do
     url "https://github.com/felixaihub/snailer-cli/releases/download/v0.1.0/snailer-v0.1.0-x86_64-unknown-linux-musl.tar.gz"
-    sha256 "REPLACE_WITH_SHA256_LINUX_X64"
+    sha256 ""
   end
 
   def install
