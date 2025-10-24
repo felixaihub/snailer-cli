@@ -347,30 +347,7 @@ pub async fn compact_context(&mut self) -> Result<()> {
 ## VS (Verification/Selection) 블록
 
 AI의 의사결정 과정을 투명하게 보여주는 시스템:
-
-### 개념
-
-```
-<<<VS_START>>>
-의사결정 과정:
-1. 옵션 A: 파일 직접 수정
-2. 옵션 B: 백업 후 수정
-3. 선택: 옵션 B (더 안전함)
-<<<VS_END>>>
-```
-
-### 구현
-
-```rust
-fn elide_vs_blocks(input: &str) -> String {
-    // 사용자 화면에서는 VS 블록 제거
-    // 내부 로직에서는 파싱하여 사용
-}
-
-fn parse_vs_block(text: &str) -> Option<String> {
-    // VS 블록 내용 추출
-}
-```
+현재 비공개 상태입니다. -> private repo.
 
 **활용**:
 - AI의 추론 과정 추적
