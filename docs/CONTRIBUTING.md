@@ -1,227 +1,589 @@
 # Snailer 기여 가이드
 
-> 🎯 **목표**: 실리콘밸리 빅테크 수준의 코드 품질과 협업 문화를 유지하며, 모든 기여자가 성공적으로 기여할 수 있도록 돕습니다.
+> 🎯 **Snailer Public Repository 기여 가이드**
+> 실리콘밸리 빅테크 인턴십 수준의 오픈소스 기여 프로세스를 경험하세요.
 
-**환영합니다!** Snailer 프로젝트에 기여해주셔서 감사합니다. 이 가이드는 Google, Meta, Microsoft 등의 오픈소스 프로젝트 기여 프로세스를 참고하여 작성되었습니다.
+**환영합니다!** 이 저장소는 Snailer CLI의 **배포, 문서, 패키징**을 위한 공개 저장소입니다. 핵심 에이전트 코드는 비공개이지만, 여러분의 기여로 Snailer를 더 많은 사용자에게 전달할 수 있습니다.
 
 ---
 
 ## 📚 목차
 
-1. [시작하기 전에](#시작하기-전에)
-2. [개발 환경 설정](#개발-환경-설정)
-3. [개발 워크플로우](#개발-워크플로우)
-4. [코드 작성 가이드](#코드-작성-가이드)
-5. [테스트 작성](#테스트-작성)
-6. [Pull Request 프로세스](#pull-request-프로세스)
-7. [코드 리뷰](#코드-리뷰)
-8. [커뮤니티 가이드라인](#커뮤니티-가이드라인)
+1. [Snailer Public Repo란?](#snailer-public-repo란)
+2. [기여 가능 영역](#기여-가능-영역)
+3. [시작하기](#시작하기)
+4. [개발 워크플로우](#개발-워크플로우)
+5. [영역별 기여 가이드](#영역별-기여-가이드)
+6. [코드 리뷰 & 병합](#코드-리뷰--병합)
+7. [커뮤니티 & 인정](#커뮤니티--인정)
 
 ---
 
-## 시작하기 전에
+## Snailer Public Repo란?
 
-### 행동 강령 (Code of Conduct)
+### 🏗️ 저장소 구조
 
-우리는 모든 기여자가 존중받고 환영받는 환경을 만들기 위해 노력합니다.
+```
+snailer-cli/  (Public Repository)
+├── 📦 packaging/         # 배포 패키지 (npm, Homebrew)
+├── 📚 docs/              # 사용자 문서 & 아키텍처 가이드
+├── ⚙️ .github/           # CI/CD, 이슈 템플릿, PR 템플릿
+├── 🔧 Formula/           # Homebrew 설치 스크립트
+├── 📄 README.md          # 프로젝트 소개
+├── 📋 CHANGELOG.md       # 릴리스 노트
+└── 🛡️ SECURITY.md        # 보안 정책
+```
 
-**✅ 권장 행동**:
-- 다양한 관점과 경험을 존중하기
-- 건설적인 피드백을 주고받기
-- 커뮤니티의 이익을 우선 생각하기
-- 실수를 인정하고 배우기
-- 초보자를 돕고 멘토링하기
+**Private Repository** (접근 불가):
+```
+snailer/  (Private - Core Implementation)
+├── src/                  # Rust 에이전트 코어
+├── tests/                # 단위/통합 테스트
+└── benches/              # 성능 벤치마크
+```
 
-**❌ 금지 행동**:
-- 차별적이거나 모욕적인 언어 사용
-- 개인 공격이나 괴롭힘
-- 타인의 개인 정보 무단 공개
-- 전문적이지 않은 행동
+### 🎯 Public Repo의 역할
 
-위반 사례는 conduct@snailer.dev로 보고해 주세요. 모든 신고는 기밀로 처리됩니다.
+| 역할 | 설명 | 기여 예시 |
+|-----|------|----------|
+| 📦 **배포 (Distribution)** | 사용자가 쉽게 설치할 수 있도록 패키징 | npm 설치 스크립트 개선, Homebrew Formula 업데이트 |
+| 📚 **문서 (Documentation)** | 사용법, 아키텍처, 기여 가이드 작성 | 튜토리얼 작성, 다국어 번역, 예제 추가 |
+| 🔧 **도구 (Tooling)** | CI/CD, 릴리스 자동화, 이슈 관리 | GitHub Actions 워크플로우, 이슈 템플릿 |
+| 🌍 **커뮤니티 (Community)** | 사용자 지원, 피드백 수집, 에코시스템 | 예제 프로젝트, 플러그인 가이드 |
 
-### 기여 유형
+### ❌ 기여 불가 영역
 
-| 유형 | 난이도 | 예시 | 시작 방법 |
-|-----|--------|------|----------|
-| 📝 **문서** | 🟢 초급 | 오타 수정, 예제 추가, 번역 | [Good First Issue](https://github.com/your-org/snailer/labels/good-first-issue) |
-| 🐛 **버그 수정** | 🟡 중급 | 버그 재현 및 수정 | [Bug 라벨](https://github.com/your-org/snailer/labels/bug) |
-| ✨ **기능 추가** | 🔴 고급 | 새 도구, 모델 지원 | [Feature Request](https://github.com/your-org/snailer/labels/feature) |
-| 🧪 **테스트** | 🟢 초급 | 단위/통합 테스트 추가 | [Needs Tests](https://github.com/your-org/snailer/labels/needs-tests) |
-| ⚡ **성능** | 🔴 고급 | 최적화, 프로파일링 | [Performance](https://github.com/your-org/snailer/labels/performance) |
+- ❌ 핵심 에이전트 로직 (`src/agent.rs`, `src/tools/` 등)
+- ❌ API 클라이언트 코드 (`src/api/`)
+- ❌ ACE 알고리즘 구현 (`src/ace/`, `src/context/`)
+- ❌ 데이터베이스 스키마 (`src/db/`)
 
-### 기여하기 전 체크리스트
-
-- [ ] 이슈가 이미 존재하는지 확인했나요?
-- [ ] 중복된 PR이 없는지 확인했나요?
-- [ ] 큰 변경사항은 먼저 이슈를 열어 논의했나요?
-- [ ] 기여 가이드를 읽었나요?
+**왜 Private인가요?**
+- 🔒 독점 알고리즘 및 최적화 보호
+- 🎯 제품 품질 및 일관성 유지
+- 🚀 빠른 프로토타이핑 및 실험
 
 ---
 
-## 개발 환경 설정
+## 기여 가능 영역
 
-### 필수 도구
+### 🟢 초급 (Good First Issue)
 
-#### 1. Rust 툴체인 (최신 stable)
+완전 초보자도 기여할 수 있는 영역입니다!
 
-```bash
-# rustup 설치
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#### 1. 📝 문서 개선
 
-# 버전 확인
-rustc --version  # 1.75.0 이상
-cargo --version
+**난이도**: ⭐☆☆☆☆
+
+**무엇을 하나요?**
+- 오타 및 문법 오류 수정
+- 불명확한 설명 개선
+- 예제 코드 추가
+- 스크린샷 및 다이어그램 추가
+
+**예시 기여**:
+```markdown
+# Before (불명확)
+Snailer는 AI 에이전트입니다.
+
+# After (명확)
+Snailer는 터미널에서 자연어 명령을 받아 코드 작성, 파일 수정,
+검색 등을 자동으로 수행하는 AI 개발 도우미입니다.
+
+예시:
+$ snailer "모든 .rs 파일에서 TODO 주석 찾아줘"
 ```
 
-#### 2. 필수 컴포넌트
+**어디서 시작할까요?**
+- [ ] [docs/README.md](./docs/README.md) 읽고 개선점 찾기
+- [ ] [docs/AGENT_ARCHITECTURE.md](./docs/AGENT_ARCHITECTURE.md) 다이어그램 추가
+- [ ] [docs/TOOL_SYSTEM.md](./docs/TOOL_SYSTEM.md) 예제 코드 추가
 
+**라벨**: `good-first-issue`, `documentation`
+
+---
+
+#### 2. 🌍 다국어 번역
+
+**난이도**: ⭐⭐☆☆☆
+
+**무엇을 하나요?**
+- README, 문서를 다른 언어로 번역
+- 한국어, 일본어, 중국어, 스페인어 등
+
+**예시 기여**:
 ```bash
-# 코드 포맷터
-rustup component add rustfmt
-
-# 린터
-rustup component add clippy
-
-# (선택) 문서 생성
-rustup component add rust-docs
+docs/
+├── README.md          # 영어 (기본)
+├── README.ko.md       # 한국어 ← 추가!
+├── README.ja.md       # 일본어 ← 추가!
+└── README.zh.md       # 중국어 ← 추가!
 ```
 
-#### 3. 추천 도구
+**가이드라인**:
+- 기술 용어는 원어 유지 (예: "Agent", "Tool", "ACE")
+- 코드 예제는 번역하지 않음
+- 링크는 모두 유효한지 확인
 
-```bash
-# 빠른 빌드를 위한 캐시
-cargo install sccache
-export RUSTC_WRAPPER=sccache
+**어디서 시작할까요?**
+- [ ] 이슈 열기: "Add Korean translation for README"
+- [ ] `README.ko.md` 생성 및 번역
+- [ ] PR 제출
 
-# 파일 변경 감지 및 자동 재빌드
-cargo install cargo-watch
+**라벨**: `translation`, `good-first-issue`
 
-# 의존성 관리
-cargo install cargo-edit
+---
 
-# 테스트 커버리지
-cargo install cargo-tarpaulin
-```
+### 🟡 중급 (Needs Help)
 
-#### 4. 코드 에디터 설정
+약간의 기술적 지식이 필요한 영역입니다.
 
-**VS Code (권장)**:
-```json
-// .vscode/settings.json
-{
-  "rust-analyzer.checkOnSave.command": "clippy",
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "rust-lang.rust-analyzer",
-  "[rust]": {
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true
+#### 3. 📦 패키징 개선
+
+**난이도**: ⭐⭐⭐☆☆
+
+**무엇을 하나요?**
+- npm 설치 스크립트 개선
+- Homebrew Formula 업데이트
+- Windows 설치 프로그램 개선
+- 플랫폼별 버그 수정
+
+**예시 기여**:
+
+**npm 설치 개선** (`packaging/npm/postinstall.js`):
+```javascript
+// Before
+const platform = process.platform;
+if (platform === 'darwin') {
+  downloadBinary('macos');
+}
+
+// After - Apple Silicon vs Intel 구분
+const platform = process.platform;
+const arch = process.arch;
+
+if (platform === 'darwin') {
+  if (arch === 'arm64') {
+    downloadBinary('macos-arm64');  // M1/M2/M3
+  } else {
+    downloadBinary('macos-x64');    // Intel
   }
 }
 ```
 
-**필수 확장**:
-- `rust-lang.rust-analyzer` (공식 Rust 언어 서버)
-- `vadimcn.vscode-lldb` (디버깅)
-- `serayuzgur.crates` (의존성 버전 확인)
+**Homebrew Formula 업데이트** (`Formula/snailer.rb`):
+```ruby
+class Snailer < Formula
+  desc "AI-Powered Development Agent"
+  homepage "https://snailer.ai"
+  version "0.1.15"  # ← 버전 업데이트
 
-### 저장소 설정
+  # SHA256 체크섬 업데이트
+  url "https://github.com/your-org/snailer/releases/download/v0.1.15/snailer-macos.tar.gz"
+  sha256 "abc123..."  # ← 새 릴리스 체크섬
+end
+```
 
-#### 1. Fork & Clone
+**어디서 시작할까요?**
+- [ ] 이슈 확인: `packaging` 라벨
+- [ ] 로컬에서 설치 테스트 (`npm install`, `brew install`)
+- [ ] 버그 재현 및 수정
+
+**라벨**: `packaging`, `npm`, `homebrew`
+
+---
+
+#### 4. 🔧 CI/CD 워크플로우
+
+**난이도**: ⭐⭐⭐☆☆
+
+**무엇을 하나요?**
+- GitHub Actions 워크플로우 개선
+- 릴리스 자동화
+- 테스트 자동화 (문서 링크 체크 등)
+
+**예시 기여**:
+
+**문서 링크 체크 워크플로우** (`.github/workflows/docs-check.yml`):
+```yaml
+name: Check Documentation Links
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'README.md'
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check.json'
+
+      - name: Comment on PR
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ 일부 문서 링크가 깨졌습니다. 확인해주세요!'
+            })
+```
+
+**어디서 시작할까요?**
+- [ ] `.github/workflows/` 디렉토리 탐색
+- [ ] 기존 워크플로우 이해하기
+- [ ] 개선점 찾기 (예: 빌드 시간 단축, 캐싱 추가)
+
+**라벨**: `ci-cd`, `github-actions`
+
+---
+
+### 🔴 고급 (Advanced)
+
+깊은 이해와 경험이 필요한 영역입니다.
+
+#### 5. 🎓 튜토리얼 & 예제
+
+**난이도**: ⭐⭐⭐⭐☆
+
+**무엇을 하나요?**
+- 실전 사용 예제 작성
+- 단계별 튜토리얼 제작
+- 비디오 가이드 제작
+- 블로그 포스트 작성
+
+**예시 기여**:
+
+**튜토리얼: "Snailer로 Rust 프로젝트 리팩토링하기"** (`docs/tutorials/rust-refactoring.md`):
+
+```markdown
+# Snailer로 Rust 프로젝트 리팩토링하기
+
+> 🎯 목표: unwrap() 사용을 Result<?> 패턴으로 전환하기
+
+## 1. 문제 파악
+
+많은 Rust 초보자는 에러 처리에 `unwrap()`을 남발합니다:
+
+STEP 1: 문제 있는 코드 찾기
+$ snailer "모든 .rs 파일에서 unwrap() 사용 찾아줘"
+
+🤖 Snailer:
+찾았습니다! 15개 파일에서 총 47개의 unwrap() 발견:
+- src/main.rs: 12개
+- src/agent.rs: 8개
+...
+
+
+## 2. 리팩토링 시작
+
+STEP 2: 개별 파일 리팩토링
+$ snailer "src/main.rs에서 unwrap()을 Result<?> 패턴으로 바꿔줘"
+
+🤖 Snailer:
+리팩토링 완료! 변경 사항:
+✅ 12개 unwrap() → ? 연산자로 변경
+✅ main() 함수 시그니처: fn main() -> Result<()>
+✅ 컴파일 테스트: 통과
+
+
+## 3. 테스트 실행
+
+STEP 3: 모든 테스트 통과 확인
+$ cargo test
+
+🎉 결과: 모든 테스트 통과!
+```
+
+**어디서 시작할까요?**
+- [ ] 본인의 Snailer 사용 경험 정리
+- [ ] 다른 사람이 겪을 만한 문제 파악
+- [ ] 단계별 해결 과정 문서화
+
+**라벨**: `tutorial`, `documentation`, `examples`
+
+---
+
+#### 6. 🎨 디자인 & UX
+
+**난이도**: ⭐⭐⭐⭐☆
+
+**무엇을 하나요?**
+- 터미널 출력 개선 (색상, 포맷)
+- 에러 메시지 개선
+- 진행 상황 표시 개선
+- 로고, 아이콘 디자인
+
+**예시 기여**:
+
+**에러 메시지 개선**:
 
 ```bash
-# 1. GitHub에서 Fork 버튼 클릭
-# 2. 본인의 fork를 clone
-git clone https://github.com/YOUR_USERNAME/snailer.git
-cd snailer
+# Before (불친절)
+Error: API key not found
 
-# 3. Upstream 리모트 추가
-git remote add upstream https://github.com/your-org/snailer.git
+# After (친절 + 해결책 제시)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ API 키가 설정되지 않았습니다
 
-# 4. 리모트 확인
+Snailer는 AI 모델을 사용하기 위해 API 키가 필요합니다.
+
+💡 해결 방법:
+
+1. 환경 변수 설정:
+   export ANTHROPIC_API_KEY=sk-ant-xxxxx
+
+2. 또는 .env 파일 생성:
+   echo "ANTHROPIC_API_KEY=sk-ant-xxxxx" > .env
+
+🔗 API 키 발급: https://console.anthropic.com/
+📖 상세 가이드: https://snailer.ai/docs/setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**어디서 시작할까요?**
+- [ ] Snailer 사용 중 불편했던 점 정리
+- [ ] 에러 메시지 개선안 제안
+- [ ] 프로토타입 작성 (텍스트/스크린샷)
+
+**라벨**: `ux`, `design`, `enhancement`
+
+---
+
+#### 7. 🔌 에코시스템 & 통합
+
+**난이도**: ⭐⭐⭐⭐⭐
+
+**무엇을 하나요?**
+- VS Code 확장 개발
+- IDE 플러그인 개발
+- 다른 도구와의 통합 (예: Docker, Kubernetes)
+- 템플릿 & 프리셋 제작
+
+**예시 기여**:
+
+**VS Code 확장** (`vscode-snailer/`):
+
+```typescript
+// extension.ts
+import * as vscode from 'vscode';
+import { exec } from 'child_process';
+
+export function activate(context: vscode.ExtensionContext) {
+  // 커맨드: 선택한 코드에 Snailer 적용
+  let disposable = vscode.commands.registerCommand(
+    'snailer.refactorSelection',
+    async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) return;
+
+      const selection = editor.selection;
+      const text = editor.document.getText(selection);
+
+      // 사용자에게 프롬프트 입력받기
+      const prompt = await vscode.window.showInputBox({
+        placeHolder: '무엇을 할까요? (예: 이 함수를 async/await으로 바꿔줘)',
+        prompt: 'Snailer에게 요청할 작업을 입력하세요'
+      });
+
+      if (!prompt) return;
+
+      // Snailer CLI 실행
+      vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: 'Snailer 실행 중...',
+        cancellable: false
+      }, async (progress) => {
+        return new Promise((resolve, reject) => {
+          exec(`snailer "${prompt}"`, (error, stdout, stderr) => {
+            if (error) {
+              vscode.window.showErrorMessage(`Snailer 에러: ${stderr}`);
+              reject(error);
+            } else {
+              vscode.window.showInformationMessage('✅ 완료!');
+              resolve(stdout);
+            }
+          });
+        });
+      });
+    }
+  );
+
+  context.subscriptions.push(disposable);
+}
+```
+
+**어디서 시작할까요?**
+- [ ] VS Code Extension API 학습
+- [ ] 간단한 프로토타입 제작
+- [ ] 이슈 열어 아이디어 공유
+
+**라벨**: `ecosystem`, `integration`, `vscode`
+
+---
+
+## 시작하기
+
+### 필수 준비물
+
+#### 1. Git & GitHub 계정
+
+```bash
+# Git 설치 확인
+git --version  # 2.x 이상
+
+# GitHub 계정 설정
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+```
+
+#### 2. 텍스트 에디터
+
+**추천**:
+- **VS Code** (가장 인기)
+  - 확장: Markdown All in One, Prettier
+- **Sublime Text**
+- **Vim/Neovim**
+
+#### 3. 패키징 기여 시 필요
+
+```bash
+# Node.js (npm 패키징)
+node --version  # v18 이상
+npm --version
+
+# Homebrew (macOS/Linux 패키징)
+brew --version
+```
+
+### 저장소 Fork & Clone
+
+#### Step 1: Fork
+
+1. https://github.com/your-org/snailer-cli 방문
+2. 우측 상단 "Fork" 버튼 클릭
+3. 본인 계정으로 Fork 생성
+
+#### Step 2: Clone
+
+```bash
+# 본인의 fork를 clone
+git clone https://github.com/YOUR_USERNAME/snailer-cli.git
+cd snailer-cli
+
+# Upstream 리모트 추가 (원본 저장소)
+git remote add upstream https://github.com/your-org/snailer-cli.git
+
+# 확인
 git remote -v
-# origin    https://github.com/YOUR_USERNAME/snailer.git (fetch)
-# origin    https://github.com/YOUR_USERNAME/snailer.git (push)
-# upstream  https://github.com/your-org/snailer.git (fetch)
-# upstream  https://github.com/your-org/snailer.git (push)
-```
-
-#### 2. 빌드 및 테스트
-
-```bash
-# 전체 빌드 (첫 빌드는 시간이 걸릴 수 있음)
-cargo build
-
-# 릴리스 빌드
-cargo build --release
-
-# 테스트 실행
-cargo test
-
-# 특정 테스트만 실행
-cargo test test_agent
-
-# 린트 검사
-cargo clippy -- -D warnings
-
-# 코드 포맷 확인
-cargo fmt -- --check
-```
-
-#### 3. 환경 변수 설정
-
-```bash
-# .env 파일 생성 (템플릿 복사)
-cp .env.example .env
-
-# 필요한 API 키 설정
-cat > .env << EOF
-ANTHROPIC_API_KEY=sk-ant-your-key-here
-OPENAI_API_KEY=sk-your-key-here
-RUST_LOG=debug
-EOF
+# origin    https://github.com/YOUR_USERNAME/snailer-cli.git (fetch)
+# origin    https://github.com/YOUR_USERNAME/snailer-cli.git (push)
+# upstream  https://github.com/your-org/snailer-cli.git (fetch)
+# upstream  https://github.com/your-org/snailer-cli.git (push)
 ```
 
 ---
 
 ## 개발 워크플로우
 
-### 브랜치 전략
+### GitHub Flow (간단한 워크플로우)
 
-우리는 **GitHub Flow**를 사용합니다 (단순하고 명확한 워크플로우).
+```
+main 브랜치 (항상 배포 가능한 상태)
+  │
+  ├─ feat/add-korean-translation  ← 기능 브랜치
+  │   └─ PR → 리뷰 → 병합
+  │
+  ├─ fix/npm-install-windows  ← 버그 수정 브랜치
+  │   └─ PR → 리뷰 → 병합
+  │
+  └─ docs/improve-readme  ← 문서 브랜치
+      └─ PR → 리뷰 → 병합
+```
 
-#### 브랜치 명명 규칙
+### 브랜치 명명 규칙
 
 ```
 <타입>/<이슈번호>-<간단한-설명>
 ```
 
 **타입**:
-- `feat/` - 새로운 기능
-- `fix/` - 버그 수정
 - `docs/` - 문서 변경
-- `test/` - 테스트 추가/수정
-- `refactor/` - 리팩토링
-- `perf/` - 성능 개선
-- `chore/` - 빌드, 설정 등
+- `feat/` - 새 기능
+- `fix/` - 버그 수정
+- `ci/` - CI/CD 변경
+- `packaging/` - 패키징 관련
 
 **예시**:
 ```bash
-git checkout -b feat/123-add-http-tool
-git checkout -b fix/456-agent-memory-leak
-git checkout -b docs/789-update-readme
+git checkout -b docs/123-add-korean-readme
+git checkout -b fix/456-npm-install-windows
+git checkout -b packaging/789-update-homebrew-formula
 ```
 
-### 일반적인 개발 사이클
+### 커밋 메시지 (Conventional Commits)
 
-#### 1️⃣ 이슈 생성 또는 선택
+**형식**:
+```
+<타입>(<스코프>): <제목>
+
+<본문>
+
+<푸터>
+```
+
+**타입**:
+- `docs` - 문서 변경
+- `feat` - 새 기능
+- `fix` - 버그 수정
+- `ci` - CI/CD 변경
+- `chore` - 기타 (빌드, 패키지 등)
+
+**예시**:
+
+```bash
+# ✅ 좋은 커밋 메시지
+docs(readme): add Korean translation
+
+Add Korean version of README.md for Korean-speaking users.
+Includes all sections from the original English README.
+
+Closes #123
+
+# ✅ 좋은 커밋 메시지
+fix(npm): resolve Windows installation path issue
+
+Fixed issue where npm postinstall script failed on Windows
+due to incorrect path separator. Changed from '/' to path.join().
+
+Fixes #456
+
+# ❌ 나쁜 커밋 메시지
+update readme
+fix bug
+WIP
+```
+
+### 개발 사이클
+
+#### 1️⃣ 이슈 찾기 또는 생성
 
 ```bash
 # Good First Issue 찾기
-# https://github.com/your-org/snailer/labels/good-first-issue
+# https://github.com/your-org/snailer-cli/labels/good-first-issue
 
-# 이슈에 코멘트로 작업 의사 표현
-# "I'd like to work on this issue. Could you assign it to me?"
+# 또는 새 이슈 생성
+# https://github.com/your-org/snailer-cli/issues/new
 ```
 
 #### 2️⃣ 브랜치 생성 및 작업
@@ -232,933 +594,512 @@ git checkout main
 git pull upstream main
 
 # 새 브랜치 생성
-git checkout -b feat/123-add-http-tool
+git checkout -b docs/123-add-korean-readme
 
-# 작업 진행...
-# (코드 작성, 테스트 추가)
+# 작업 진행
+# (파일 수정...)
 
-# 자주 커밋하기 (작은 단위로)
-git add src/tools/http.rs
-git commit -m "feat: add basic HTTP client tool structure"
+# 변경 사항 확인
+git status
+git diff
 
-git add tests/tools/http_test.rs
-git commit -m "test: add unit tests for HTTP tool"
+# 커밋
+git add README.ko.md
+git commit -m "docs(readme): add Korean translation
+
+Add Korean version of README for Korean users.
+
+Closes #123"
 ```
 
-#### 3️⃣ 코드 품질 확인
+#### 3️⃣ Push 및 PR 생성
 
 ```bash
-# 자동으로 전체 체크 실행
-make check  # 또는 아래 명령들 개별 실행
+# 본인 fork에 push
+git push origin docs/123-add-korean-readme
 
-# 1. 포맷 확인 및 수정
-cargo fmt
-
-# 2. Clippy 린트 (경고를 에러로 처리)
-cargo clippy -- -D warnings
-
-# 3. 테스트 실행
-cargo test
-
-# 4. 문서 빌드 확인
-cargo doc --no-deps
-
-# 5. (선택) 벤치마크 실행
-cargo bench
+# GitHub에서 PR 생성
+# (자동으로 "Compare & pull request" 버튼이 나타남)
 ```
 
-#### 4️⃣ 커밋 메시지 작성
-
-**Conventional Commits** 스타일을 따릅니다:
-
-```
-<타입>(<스코프>): <제목>
-
-<본문>
-
-<푸터>
-```
-
-**타입**:
-- `feat`: 새로운 기능
-- `fix`: 버그 수정
-- `docs`: 문서 변경
-- `style`: 코드 포맷 (동작 변경 없음)
-- `refactor`: 리팩토링
-- `perf`: 성능 개선
-- `test`: 테스트 추가/수정
-- `chore`: 빌드, 패키지 매니저 설정 등
-
-**예시**:
-
-```
-feat(tools): add HTTP request tool with retry logic
-
-Implement a new HTTP tool that supports:
-- GET/POST/PUT/DELETE methods
-- Automatic retry with exponential backoff
-- Timeout configuration
-- Custom headers support
-
-Closes #123
-```
-
-**좋은 커밋 메시지**:
-```
-✅ feat(agent): implement context compression for long conversations
-✅ fix(db): resolve SQLite connection pool exhaustion
-✅ docs(readme): add installation instructions for Windows
-✅ test(tools): add integration tests for shell command tool
-```
-
-**나쁜 커밋 메시지**:
-```
-❌ fix bug
-❌ update code
-❌ WIP
-❌ asdfasdf
-```
-
-#### 5️⃣ Push 및 PR 생성
+#### 4️⃣ 리뷰 받기
 
 ```bash
-# 본인의 fork에 push
-git push origin feat/123-add-http-tool
+# 리뷰어의 피드백을 받으면...
 
-# GitHub에서 Pull Request 생성
-# (자동으로 PR 생성 링크가 나타남)
+# 수정 작업
+# (파일 수정...)
+
+# 추가 커밋
+git add .
+git commit -m "docs(readme): address review feedback"
+git push origin docs/123-add-korean-readme
+
+# PR이 자동으로 업데이트됨
 ```
 
 ---
 
-## 코드 작성 가이드
+## 영역별 기여 가이드
 
-### Rust 코딩 스타일
+### 📚 문서 기여
 
-#### 1. 네이밍 컨벤션
+#### 문서 구조
+
+```
+docs/
+├── README.md                    # 문서 인덱스
+├── AGENT_ARCHITECTURE.md        # 에이전트 아키텍처
+├── TOOL_SYSTEM.md               # 도구 시스템
+├── ACE_SYSTEM.md                # ACE 자기학습 시스템
+├── CONTRIBUTING.md              # 기여 가이드 (이 문서!)
+├── DOCUMENTATION_STATUS.md      # 구현 상태 분석
+│
+├── reference/                   # 참고 문서
+│   ├── README.md
+│   ├── NEXT_ACTION_DSL.md
+│   ├── runbook.md
+│   └── safety-approval.md
+│
+└── experimental/                # 실험 기능
+    ├── README.md
+    └── prompts/
+        └── VS_PROMPTS.md
+```
+
+#### 문서 작성 가이드
+
+**1. Markdown 스타일**
+
+```markdown
+# 제목 1 (H1) - 문서당 1개만
+
+## 제목 2 (H2) - 주요 섹션
+
+### 제목 3 (H3) - 하위 섹션
+
+**굵게**
+*기울임*
+`코드`
+
+```
+
+**2. 코드 블록**
+
+````markdown
+```bash
+# 주석은 # 사용
+snailer "명령어"
+```
 
 ```rust
-// ✅ 구조체: PascalCase
-pub struct ToolRegistry {
-    // ✅ 필드: snake_case
-    project_path: PathBuf,
-    tool_cache: HashMap<String, Box<dyn Tool>>,
-}
-
-// ✅ 함수/메서드: snake_case
-pub async fn execute_tool(&self, name: &str) -> Result<String> {
-    // ✅ 로컬 변수: snake_case
-    let tool_result = self.run_internal(name).await?;
-
-    // ✅ 상수: SCREAMING_SNAKE_CASE
-    const MAX_RETRIES: usize = 3;
-
-    Ok(tool_result)
-}
-
-// ✅ Enum: PascalCase
-pub enum ExecutionMode {
-    // ✅ Variant: PascalCase
-    Simple,
-    Agent,
-    GrpoRollout,
-}
-
-// ✅ Trait: PascalCase (형용사형 선호)
-pub trait Executable {
-    fn execute(&self) -> Result<()>;
+// Rust 코드
+fn main() {
+    println!("Hello!");
 }
 ```
+````
 
-#### 2. 에러 처리
+**3. 링크**
 
-```rust
-// ✅ Good - Result와 ? 연산자 사용
-pub async fn read_file(&self, path: &str) -> Result<String> {
-    let content = tokio::fs::read_to_string(path).await
-        .context(format!("Failed to read file: {}", path))?;
+```markdown
+# 상대 링크 (같은 저장소)
+[CONTRIBUTING.md](./CONTRIBUTING.md)
 
-    Ok(content)
-}
+# 절대 링크 (외부)
+[Rust Book](https://doc.rust-lang.org/book/)
 
-// ❌ Bad - unwrap() 사용
-pub async fn read_file(&self, path: &str) -> String {
-    tokio::fs::read_to_string(path).await.unwrap()  // 절대 금지!
-}
-
-// ✅ Good - 명확한 에러 메시지
-if user_id.is_empty() {
-    return Err(anyhow!(
-        "User ID cannot be empty. Please provide a valid user ID."
-    ));
-}
-
-// ❌ Bad - 불명확한 에러
-if user_id.is_empty() {
-    return Err(anyhow!("Invalid input"));
-}
+# 앵커 링크 (같은 문서 내)
+[시작하기](#시작하기)
 ```
 
-#### 3. 문서화 (Rustdoc)
+**4. 이미지**
 
-```rust
-/// HTTP 요청을 실행하는 도구입니다.
-///
-/// # 예제
-///
-/// ```
-/// use snailer::tools::HttpTool;
-///
-/// let tool = HttpTool::new();
-/// let result = tool.get("https://api.example.com/data").await?;
-/// ```
-///
-/// # Errors
-///
-/// - 네트워크 연결 실패 시 [`std::io::Error`]를 반환합니다.
-/// - 잘못된 URL 형식일 경우 [`url::ParseError`]를 반환합니다.
-///
-/// # Panics
-///
-/// 이 함수는 panic하지 않습니다.
-pub async fn get(&self, url: &str) -> Result<String> {
-    // ...
-}
+```markdown
+# 스크린샷 추가
+![Snailer Demo](./images/demo.png)
 
-/// 사용자 설정을 관리하는 구조체
-///
-/// # Fields
-///
-/// * `user_id` - 고유한 사용자 식별자 (UUID 형식)
-/// * `model` - 사용할 AI 모델 이름 (예: "claude-4.5")
-/// * `max_tokens` - 최대 토큰 수 (기본값: 4096)
-pub struct UserConfig {
-    pub user_id: String,
-    pub model: String,
-    pub max_tokens: usize,
-}
+# 외부 이미지
+![Logo](https://snailer.ai/logo.png)
 ```
 
-#### 4. 타입 안전성
+#### 문서 체크리스트
 
-```rust
-// ✅ Good - newtype pattern으로 타입 안전성 확보
-#[derive(Debug, Clone)]
-pub struct UserId(String);
+PR 제출 전 확인하세요:
 
-impl UserId {
-    pub fn new(id: String) -> Result<Self> {
-        if id.is_empty() {
-            return Err(anyhow!("User ID cannot be empty"));
-        }
-        Ok(UserId(id))
-    }
-}
+- [ ] 모든 링크가 작동하는가?
+- [ ] 코드 블록에 언어 지정했는가? (```bash, ```rust)
+- [ ] 스크린샷이 선명한가?
+- [ ] 오타가 없는가?
+- [ ] 목차가 업데이트되었는가?
 
-// ✅ Good - 명시적 타입
-pub async fn execute(&self, user: UserId) -> Result<ExecutionResult> {
-    // user는 UserId 타입으로만 받을 수 있음
-}
+---
 
-// ❌ Bad - String 남발
-pub async fn execute(&self, user: String) -> Result<String> {
-    // 어떤 String인지 불명확
-}
+### 📦 패키징 기여
+
+#### npm 패키징
+
+**파일 위치**: `packaging/npm/`
+
+**구조**:
+```
+packaging/npm/
+├── package.json       # npm 메타데이터
+├── postinstall.js     # 설치 후 실행 스크립트
+└── README.md          # npm 페이지 설명
 ```
 
-#### 5. 비동기 코드
+**개선 예시**:
 
-```rust
-// ✅ Good - 명시적 async/await
-pub async fn process_tasks(&self, tasks: Vec<Task>) -> Result<Vec<TaskResult>> {
-    let mut results = Vec::new();
-
-    for task in tasks {
-        let result = self.execute_task(&task).await?;
-        results.push(result);
-    }
-
-    Ok(results)
-}
-
-// ✅ Better - 병렬 처리
-use futures::future::join_all;
-
-pub async fn process_tasks(&self, tasks: Vec<Task>) -> Result<Vec<TaskResult>> {
-    let futures = tasks.iter().map(|task| self.execute_task(task));
-    let results = join_all(futures).await;
-
-    results.into_iter().collect()
-}
-
-// ✅ Good - timeout 설정
-use tokio::time::{timeout, Duration};
-
-pub async fn execute_with_timeout(&self) -> Result<String> {
-    let result = timeout(
-        Duration::from_secs(30),
-        self.long_running_task()
-    ).await??;  // timeout error + task error
-
-    Ok(result)
-}
+**문제**: Windows에서 설치 실패
+```javascript
+// postinstall.js (문제 있는 코드)
+const binaryPath = `${__dirname}/bin/snailer`;  // Windows에서 깨짐
 ```
 
-### 코드 구조
-
-#### 디렉토리 구조
-
-```
-src/
-├── main.rs              # 엔트리포인트
-├── lib.rs               # 라이브러리 루트
-├── agent/               # Agent 관련
-│   ├── mod.rs
-│   ├── executor.rs
-│   └── context.rs
-├── tools/               # 도구 구현
-│   ├── mod.rs
-│   ├── registry.rs
-│   ├── shell.rs
-│   ├── file.rs
-│   └── http.rs
-├── api/                 # API 클라이언트
-│   ├── mod.rs
-│   ├── claude.rs
-│   └── openai.rs
-├── db/                  # 데이터베이스
-│   ├── mod.rs
-│   └── metrics.rs
-└── utils/               # 유틸리티
-    ├── mod.rs
-    └── terminal.rs
+**해결**:
+```javascript
+// postinstall.js (수정된 코드)
+const path = require('path');
+const binaryPath = path.join(__dirname, 'bin', 'snailer');  // ✅
 ```
 
-#### 모듈 구성
+**테스트**:
+```bash
+# 로컬 테스트
+cd packaging/npm
+npm pack  # snailer-0.1.15.tgz 생성
+npm install -g ./snailer-0.1.15.tgz
 
-```rust
-// src/tools/mod.rs
-mod registry;
-mod shell;
-mod file;
-mod http;
+# 설치 확인
+snailer --version
+```
 
-pub use registry::ToolRegistry;
-pub use shell::ShellTool;
-pub use file::{FileReader, FileWriter};
-pub use http::HttpTool;
+#### Homebrew 패키징
 
-// 내부용 (pub 없음)
-mod internal_helper;
+**파일 위치**: `Formula/snailer.rb`
+
+**업데이트 절차**:
+
+1. 새 릴리스가 나오면 체크섬 계산
+```bash
+# 바이너리 다운로드
+curl -L -o snailer-macos.tar.gz \
+  https://github.com/your-org/snailer/releases/download/v0.1.15/snailer-macos.tar.gz
+
+# SHA256 체크섬 계산
+shasum -a 256 snailer-macos.tar.gz
+# 출력: abc123def456... snailer-macos.tar.gz
+```
+
+2. Formula 업데이트
+```ruby
+class Snailer < Formula
+  desc "AI-Powered Development Agent"
+  homepage "https://snailer.ai"
+  version "0.1.15"  # ← 버전 업데이트
+
+  url "https://github.com/your-org/snailer/releases/download/v0.1.15/snailer-macos.tar.gz"
+  sha256 "abc123def456..."  # ← 새 체크섬
+
+  def install
+    bin.install "snailer"
+  end
+
+  test do
+    system "#{bin}/snailer", "--version"
+  end
+end
+```
+
+3. 로컬 테스트
+```bash
+# 로컬 Formula 테스트
+brew install --build-from-source ./Formula/snailer.rb
+
+# 테스트 실행
+brew test snailer
+
+# 삭제
+brew uninstall snailer
 ```
 
 ---
 
-## 테스트 작성
+### ⚙️ CI/CD 기여
 
-### 테스트 전략
+#### GitHub Actions 워크플로우
 
-```
-┌─────────────────────────────────────┐
-│  1. Unit Tests (단위 테스트)         │  ← 가장 많이 작성
-│     - 개별 함수/메서드 테스트         │
-│     - src/ 파일 내부에 작성          │
-├─────────────────────────────────────┤
-│  2. Integration Tests (통합 테스트)  │  ← 핵심 흐름 검증
-│     - 여러 컴포넌트 조합 테스트       │
-│     - tests/ 디렉토리에 작성         │
-├─────────────────────────────────────┤
-│  3. Doc Tests (문서 테스트)          │  ← 예제 코드 검증
-│     - Rustdoc 예제 자동 실행         │
-│     - /// ``` 블록 내부              │
-└─────────────────────────────────────┘
-```
+**파일 위치**: `.github/workflows/`
 
-### 1. 단위 테스트 (Unit Tests)
+**기존 워크플로우**:
+- `docs-check.yml` - 문서 링크 검증
+- `release.yml` - 릴리스 자동화
 
-```rust
-// src/tools/http.rs
+**새 워크플로우 추가 예시**:
 
-pub struct HttpTool {
-    client: reqwest::Client,
-    timeout: Duration,
-}
+**목표**: PR에 자동으로 파일 변경 통계 코멘트 추가
 
-impl HttpTool {
-    pub fn new(timeout: Duration) -> Self {
-        Self {
-            client: reqwest::Client::new(),
-            timeout,
-        }
-    }
+`.github/workflows/pr-stats.yml`:
+```yaml
+name: PR Statistics
 
-    pub async fn get(&self, url: &str) -> Result<String> {
-        let response = self.client
-            .get(url)
-            .timeout(self.timeout)
-            .send()
-            .await?;
+on:
+  pull_request:
+    types: [opened, synchronize]
 
-        Ok(response.text().await?)
-    }
-}
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-// ✅ 같은 파일 하단에 테스트 모듈
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use tokio;
+      - name: Calculate changed files
+        id: stats
+        run: |
+          FILES_CHANGED=$(git diff --name-only origin/main...HEAD | wc -l)
+          LINES_ADDED=$(git diff --numstat origin/main...HEAD | awk '{s+=$1} END {print s}')
+          LINES_REMOVED=$(git diff --numstat origin/main...HEAD | awk '{s+=$2} END {print s}')
 
-    #[tokio::test]
-    async fn test_http_get_success() {
-        let tool = HttpTool::new(Duration::from_secs(10));
-        let result = tool.get("https://httpbin.org/get").await;
+          echo "files=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "added=$LINES_ADDED" >> $GITHUB_OUTPUT
+          echo "removed=$LINES_REMOVED" >> $GITHUB_OUTPUT
 
-        assert!(result.is_ok());
-    }
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const files = '${{ steps.stats.outputs.files }}';
+            const added = '${{ steps.stats.outputs.added }}';
+            const removed = '${{ steps.stats.outputs.removed }}';
 
-    #[tokio::test]
-    async fn test_http_timeout() {
-        let tool = HttpTool::new(Duration::from_millis(1));
-        let result = tool.get("https://httpbin.org/delay/10").await;
+            const body = `## 📊 PR 통계
 
-        assert!(result.is_err());
-        assert!(result.unwrap_err().to_string().contains("timeout"));
-    }
+            - 📁 변경된 파일: ${files}개
+            - ➕ 추가된 줄: ${added}줄
+            - ➖ 삭제된 줄: ${removed}줄
 
-    #[tokio::test]
-    async fn test_http_invalid_url() {
-        let tool = HttpTool::new(Duration::from_secs(10));
-        let result = tool.get("not-a-valid-url").await;
+            ${files > 20 ? '⚠️ 변경된 파일이 많습니다. PR을 나누는 것을 고려해보세요.' : '✅ 적절한 크기의 PR입니다!'}
+            `;
 
-        assert!(result.is_err());
-    }
-}
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
 ```
 
-### 2. 통합 테스트 (Integration Tests)
-
-```rust
-// tests/agent_integration_test.rs
-
-use snailer::Agent;
-use std::path::PathBuf;
-
-#[tokio::test]
-async fn test_agent_executes_shell_command() {
-    let mut agent = Agent::new(
-        "List files in current directory".to_string(),
-        PathBuf::from("."),
-        "claude-4.5".to_string()
-    ).unwrap();
-
-    // Mock API 응답 설정 (실제 API 호출 안 함)
-    agent.set_mock_response(r#"{
-        "content": [{
-            "type": "tool_use",
-            "name": "shell",
-            "input": {"command": "ls"}
-        }]
-    }"#);
-
-    let result = agent.run_agent_mode().await;
-
-    assert!(result.is_ok());
-    assert!(agent.tool_calls_count() > 0);
-}
-
-#[tokio::test]
-async fn test_agent_handles_cancellation() {
-    let mut agent = Agent::new(
-        "Long running task".to_string(),
-        PathBuf::from("."),
-        "claude-4.5".to_string()
-    ).unwrap();
-
-    // 1초 후 취소
-    tokio::spawn(async move {
-        tokio::time::sleep(Duration::from_secs(1)).await;
-        agent.cancel();
-    });
-
-    let result = agent.run_agent_mode().await;
-
-    assert!(result.is_ok());
-    assert!(agent.was_cancelled());
-}
-```
-
-### 3. 문서 테스트 (Doc Tests)
-
-```rust
-/// HTTP GET 요청을 수행합니다.
-///
-/// # 예제
-///
-/// ```
-/// use snailer::tools::HttpTool;
-/// use tokio::time::Duration;
-///
-/// # tokio_test::block_on(async {
-/// let tool = HttpTool::new(Duration::from_secs(10));
-/// let html = tool.get("https://example.com").await?;
-/// assert!(html.contains("Example Domain"));
-/// # Ok::<(), anyhow::Error>(())
-/// # });
-/// ```
-pub async fn get(&self, url: &str) -> Result<String> {
-    // ...
-}
-```
-
-### 테스트 커버리지
-
-```bash
-# 커버리지 측정
-cargo tarpaulin --out Html --output-dir coverage
-
-# 브라우저에서 확인
-open coverage/index.html
-```
-
-**목표 커버리지**:
-- 🎯 **핵심 로직**: 80% 이상
-- 🎯 **도구 구현**: 70% 이상
-- 🎯 **유틸리티**: 60% 이상
+**테스트**:
+1. 브랜치에서 PR 생성
+2. Actions 탭에서 워크플로우 실행 확인
+3. PR에 코멘트가 추가되는지 확인
 
 ---
 
-## Pull Request 프로세스
-
-### PR 생성 전 체크리스트
-
-```bash
-# 1. 최신 main 브랜치 머지
-git checkout main
-git pull upstream main
-git checkout feat/123-add-http-tool
-git merge main
-
-# 2. 코드 품질 확인
-cargo fmt
-cargo clippy -- -D warnings
-cargo test
-
-# 3. 문서 확인
-cargo doc --no-deps --open
-
-# 4. 커밋 정리 (필요시)
-git rebase -i main
-```
+## 코드 리뷰 & 병합
 
 ### PR 템플릿
 
-```markdown
-## 📝 변경 사항 요약
+PR 생성 시 자동으로 나타나는 템플릿:
 
-간결하게 무엇을 변경했는지 설명해주세요.
+```markdown
+## 📝 변경 사항
+
+<!-- 무엇을 변경했는지 간단히 설명해주세요 -->
 
 ## 🔗 관련 이슈
 
-Closes #123
+Closes #(이슈 번호)
 
 ## 🎯 변경 유형
 
-- [ ] 🐛 버그 수정
-- [ ] ✨ 새 기능
-- [ ] 📝 문서 업데이트
-- [ ] ♻️ 리팩토링
-- [ ] ⚡ 성능 개선
-- [ ] 🧪 테스트 추가
-
-## 🧪 테스트 방법
-
-어떻게 테스트했는지 설명해주세요:
-
-1. `cargo test` 실행
-2. 수동 테스트: ...
-3. 엣지 케이스 확인: ...
-
-## 📸 스크린샷 (UI 변경인 경우)
-
-Before / After 스크린샷
+- [ ] 📚 문서 (Documentation)
+- [ ] 📦 패키징 (Packaging)
+- [ ] 🔧 CI/CD
+- [ ] 🎨 디자인/UX
+- [ ] 🌍 번역 (Translation)
 
 ## ✅ 체크리스트
 
-- [ ] 코드가 `cargo fmt`로 포맷되었습니다
-- [ ] `cargo clippy`를 통과했습니다
-- [ ] 모든 테스트가 통과했습니다 (`cargo test`)
-- [ ] 새로운 기능에 대한 테스트를 추가했습니다
-- [ ] 문서를 업데이트했습니다
-- [ ] CHANGELOG.md를 업데이트했습니다 (해당하는 경우)
+- [ ] 로컬에서 테스트했습니다
+- [ ] 문서 링크가 모두 작동합니다
+- [ ] 커밋 메시지가 Conventional Commits 형식입니다
+- [ ] 관련 문서를 업데이트했습니다
 
-## 💬 추가 설명
+## 📸 스크린샷 (선택)
 
-리뷰어가 알아야 할 추가 정보나 질문이 있다면 작성해주세요.
+<!-- UI/UX 변경인 경우 Before/After 스크린샷 추가 -->
 ```
 
-### PR 크기 가이드
+### 리뷰 프로세스
 
-| 크기 | 변경 라인 수 | 리뷰 시간 | 권장 사항 |
-|-----|------------|----------|----------|
-| 🟢 **Small** | < 100 | 10분 | 이상적 ✅ |
-| 🟡 **Medium** | 100-300 | 30분 | 괜찮음 |
-| 🟠 **Large** | 300-500 | 1시간 | 나누는 것 고려 |
-| 🔴 **Huge** | > 500 | 2시간+ | 반드시 나누기 ❌ |
-
-**큰 PR 나누는 방법**:
+**1. 자동 체크** (CI)
 ```
-# 예: HTTP 도구 추가 (500줄)
-
-PR 1: feat: add HTTP client basic structure (100줄)
-PR 2: feat: add HTTP retry logic (150줄)
-PR 3: feat: add HTTP authentication (100줄)
-PR 4: test: add HTTP integration tests (150줄)
+✅ Markdown 링크 체크
+✅ 파일 크기 제한 (> 1MB 경고)
+✅ PR 크기 체크 (> 500줄 경고)
 ```
+
+**2. 코드 리뷰** (메인테이너)
+- 문서: 명확성, 정확성, 문법
+- 패키징: 플랫폼 호환성, 에러 처리
+- CI/CD: 보안, 효율성
+
+**3. 승인 & 병합**
+```
+✅ Approve → Squash & Merge
+```
+
+### 리뷰 받는 팁
+
+**좋은 PR**:
+- ✅ 작은 크기 (< 300줄)
+- ✅ 명확한 설명
+- ✅ 스크린샷 포함 (UI 변경)
+- ✅ 테스트 완료
+
+**나쁜 PR**:
+- ❌ 여러 기능을 한 PR에 (분리하세요!)
+- ❌ 설명 없음
+- ❌ 테스트 안 함
+- ❌ 무관한 파일 변경
 
 ---
 
-## 코드 리뷰
+## 커뮤니티 & 인정
 
-### 리뷰어 가이드
+### 기여자 인정
 
-**리뷰 시 확인 사항**:
-
-1. **정확성 (Correctness)**
-   - [ ] 코드가 의도한 대로 동작하는가?
-   - [ ] 엣지 케이스를 처리하는가?
-   - [ ] 에러 처리가 적절한가?
-
-2. **설계 (Design)**
-   - [ ] 코드 구조가 합리적인가?
-   - [ ] 적절한 추상화 수준인가?
-   - [ ] 재사용 가능한가?
-
-3. **가독성 (Readability)**
-   - [ ] 변수/함수 이름이 명확한가?
-   - [ ] 주석이 필요한 곳에 있는가?
-   - [ ] 코드가 자기 설명적인가?
-
-4. **테스트 (Testing)**
-   - [ ] 충분한 테스트가 있는가?
-   - [ ] 테스트가 의미 있는가?
-   - [ ] 실패 케이스를 테스트하는가?
-
-5. **문서 (Documentation)**
-   - [ ] Public API에 문서가 있는가?
-   - [ ] 예제 코드가 있는가?
-   - [ ] README가 업데이트되었는가?
-
-### 리뷰 코멘트 스타일
-
-**✅ 좋은 리뷰 코멘트**:
-
+**README.md에 이름 추가**:
 ```markdown
-**[성능]** 이 루프는 매번 HashMap을 할당합니다.
-루프 밖으로 빼면 어떨까요?
+## 🙏 기여자
 
-Before:
-for item in items {
-    let mut map = HashMap::new();
-    // ...
-}
+특별히 감사드립니다:
 
-After:
-let mut map = HashMap::new();
-for item in items {
-    map.clear();
-    // ...
-}
+- [@your-username](https://github.com/your-username) - 한국어 번역
+- [@contributor2](https://github.com/contributor2) - npm 패키징 개선
 ```
 
-```markdown
-**[질문]** 왜 여기서 `unwrap()`을 사용하셨나요?
-이 함수가 실패할 가능성이 있다면 `?`를 사용하는 게
-더 좋을 것 같습니다.
-```
+**Contributors 그래프**:
+https://github.com/your-org/snailer-cli/graphs/contributors
 
-```markdown
-**[칭찬]** 이 추상화 정말 깔끔하네요! 테스트하기도
-훨씬 쉬워졌습니다. 👍
-```
+### 뱃지 & 레벨
 
-**❌ 나쁜 리뷰 코멘트**:
+| 기여 횟수 | 레벨 | 뱃지 |
+|----------|------|------|
+| 1-5 PR | 🥉 브론즈 | Bronze Contributor |
+| 6-15 PR | 🥈 실버 | Silver Contributor |
+| 16-30 PR | 🥇 골드 | Gold Contributor |
+| 31+ PR | 💎 다이아몬드 | Diamond Contributor |
 
-```markdown
-❌ "이거 안 좋은데요."  (이유 없음)
-❌ "이렇게 하지 마세요."  (대안 없음)
-❌ "누가 이렇게 코드를 짜요?"  (불친절)
-```
+### 커뮤니티 채널
 
-### 리뷰 라벨
-
-- `LGTM` (Looks Good To Me) - 승인
-- `nit` - 사소한 제안 (블로킹 아님)
-- `question` - 질문
-- `blocker` - 반드시 수정 필요
-
----
-
-## 커뮤니티 가이드라인
-
-### 질문하기
-
-**좋은 질문**:
-```markdown
-## 질문: Agent 컨텍스트 압축 동작 방식
-
-안녕하세요! Agent의 컨텍스트 압축 기능을 이해하려고 합니다.
-
-**현재 이해**:
-- `compact_context()`가 오래된 대화를 압축한다
-- 최근 N개 메시지는 유지된다
-
-**질문**:
-1. N의 기본값은 몇 개인가요?
-2. 압축 시 AI를 호출하는데, 비용은 어떻게 되나요?
-3. 압축된 내용은 어디에 저장되나요?
-
-**시도한 것**:
-- 코드를 읽어봤지만 압축 로직이 복잡해서 확신이 없습니다
-- 문서를 찾아봤지만 상세 설명이 없었습니다
-
-감사합니다!
-```
-
-### 이슈 보고하기
-
-**버그 리포트 템플릿**:
-
-```markdown
-## 🐛 버그 설명
-
-Agent가 특정 파일을 읽을 때 메모리가 계속 증가합니다.
-
-## 재현 방법
-
-1. 10MB 이상의 파일 생성
-2. `snailer --agent --prompt "파일 내용 요약해줘"`
-3. 메모리 사용량 모니터링
-
-## 예상 동작
-
-파일을 읽은 후 메모리가 해제되어야 합니다.
-
-## 실제 동작
-
-메모리 사용량이 계속 증가합니다 (10MB → 50MB).
-
-## 환경
-
-- OS: macOS 14.0
-- Rust 버전: 1.75.0
-- Snailer 버전: 0.1.14
-- 모델: claude-4.5
-
-## 로그
-
-RUST_LOG=debug snailer ...
-[2025-01-15 10:30:00] DEBUG Reading file: large.txt
-[2025-01-15 10:30:05] DEBUG Memory: 50MB
-...
-
-## 추가 정보
-
-Activity Monitor 스크린샷 첨부
-```
-
-### 멘토링 & 도움 주기
-
-**초보자를 도울 때**:
-- ✅ 인내심을 가지세요
-- ✅ "바보같은 질문은 없습니다"
-- ✅ 문서 링크를 제공하세요
-- ✅ 예제 코드를 보여주세요
-- ❌ "이건 너무 쉬운데요" 같은 말 하지 마세요
-
-**도움 요청할 때**:
-- ✅ 스스로 먼저 시도하세요
-- ✅ 무엇을 시도했는지 설명하세요
-- ✅ 구체적으로 질문하세요
-- ❌ "안 돼요. 도와주세요" 만 쓰지 마세요
-
----
-
-## 고급 주제
-
-### 성능 프로파일링
-
-```bash
-# CPU 프로파일링
-cargo build --release
-perf record --call-graph=dwarf ./target/release/snailer
-perf report
-
-# 메모리 프로파일링
-valgrind --tool=massif ./target/release/snailer
-```
-
-### 벤치마킹
-
-```rust
-// benches/agent_benchmark.rs
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use snailer::Agent;
-
-fn bench_agent_execution(c: &mut Criterion) {
-    c.bench_function("agent simple mode", |b| {
-        b.iter(|| {
-            let mut agent = Agent::new(
-                black_box("Hello".to_string()),
-                PathBuf::from("."),
-                "claude-4.5".to_string()
-            ).unwrap();
-
-            agent.run_simple_mode()
-        });
-    });
-}
-
-criterion_group!(benches, bench_agent_execution);
-criterion_main!(benches);
-```
-
-### Unsafe 코드
-
-```rust
-// ⚠️ Unsafe 코드는 최후의 수단입니다
-// 반드시 리뷰어와 논의 후 사용하세요
-
-// ✅ Good - 이유와 안전성 설명
-/// SAFETY: ptr은 항상 유효한 메모리를 가리키며,
-/// lifetime 'a는 데이터가 살아있음을 보장합니다.
-unsafe fn read_ptr<'a>(ptr: *const u8) -> &'a u8 {
-    &*ptr
-}
-
-// ❌ Bad - 설명 없는 unsafe
-unsafe fn do_something(ptr: *const u8) {
-    // ...
-}
-```
-
----
-
-## 릴리스 프로세스
-
-### 버전 관리 (Semantic Versioning)
-
-```
-MAJOR.MINOR.PATCH
-
-MAJOR: 호환성 깨는 변경 (Breaking Changes)
-MINOR: 새 기능 추가 (Backward Compatible)
-PATCH: 버그 수정
-```
-
-**예시**:
-- `0.1.14 → 0.1.15`: 버그 수정
-- `0.1.15 → 0.2.0`: 새 기능 추가
-- `0.2.0 → 1.0.0`: 정식 릴리스
-- `1.0.0 → 2.0.0`: Breaking change
-
-### CHANGELOG 작성
-
-```markdown
-# Changelog
-
-## [0.2.0] - 2025-01-20
-
-### Added
-- HTTP 도구 추가 (#123)
-- 컨텍스트 자동 압축 기능 (#145)
-
-### Changed
-- Agent 실행 루프 성능 30% 개선 (#134)
-- 에러 메시지 개선 (#156)
-
-### Fixed
-- 메모리 누수 수정 (#167)
-- Windows에서 파일 경로 문제 해결 (#178)
-
-### Deprecated
-- `old_api()` 대신 `new_api()` 사용 권장
-
-### Removed
-- 실험적 GRPO 모드 제거 (별도 브랜치로 이동)
-
-### Security
-- 의존성 보안 업데이트: tokio 1.35.0 → 1.36.0
-```
+- **GitHub Discussions**: 질문, 아이디어 공유
+- **Discord**: 실시간 채팅 (준비 중)
+- **Twitter**: @snailer_ai (공지사항)
 
 ---
 
 ## 자주 묻는 질문 (FAQ)
 
+### Q: 코어 코드를 수정하고 싶은데요?
+
+**A**: 코어 코드는 비공개입니다. 하지만 기능 제안은 환영합니다!
+
+1. GitHub Issues에서 "Feature Request" 템플릿 사용
+2. 상세한 사용 사례 및 예시 제공
+3. 메인테이너가 검토 후 구현 여부 결정
+
 ### Q: 첫 기여로 무엇을 하면 좋을까요?
 
-**A**: `good-first-issue` 라벨을 찾아보세요:
-1. 문서 오타 수정
-2. 예제 코드 추가
-3. 테스트 추가
-4. 간단한 버그 수정
+**A**: `good-first-issue` 라벨부터 시작하세요!
 
-### Q: 코드 리뷰가 오래 걸리는데 어떻게 하나요?
+추천 순서:
+1. 문서 오타 수정 (5분)
+2. 예제 코드 추가 (30분)
+3. 간단한 번역 (1-2시간)
+4. 패키징 버그 수정 (2-4시간)
 
-**A**:
-- 보통 2-3일 내 리뷰됩니다
-- 1주일 이상 걸리면 친절하게 핑(ping) 해주세요
-- Discord에서 리마인더 보내주세요
+### Q: PR이 거절되면 어떡하나요?
 
-### Q: 제 PR이 거절당했어요. 어떡하죠?
+**A**: 괜찮습니다! 배움의 기회입니다.
 
-**A**:
-- 거절 사유를 읽어보세요
-- 질문이 있으면 코멘트로 물어보세요
-- 수정 후 다시 제출하세요
-- 모든 거절은 배움의 기회입니다!
+1. 거절 사유를 읽어보세요
+2. 질문이 있으면 코멘트로 물어보세요
+3. 수정 후 다시 제출하거나, 새로운 이슈를 시도하세요
 
-### Q: Breaking change는 어떻게 처리하나요?
+### Q: 리뷰가 오래 걸려요
 
-**A**:
-1. 먼저 이슈를 열어 논의하세요
-2. Deprecation 기간을 두세요 (1-2 릴리스)
-3. Migration 가이드를 작성하세요
-4. CHANGELOG에 명확히 표시하세요
+**A**: 보통 2-3일 내 리뷰됩니다.
+
+- 1주일 이상: PR에 친절하게 핑(ping) 해주세요
+- 긴급한 경우: Discord에서 멘션
+
+---
+
+## 행동 강령
+
+### 우리의 약속
+
+모든 기여자가 존중받고 환영받는 환경을 만듭니다.
+
+**✅ 권장**:
+- 다양한 관점 존중
+- 건설적 피드백
+- 초보자 도움
+- 실수 인정
+
+**❌ 금지**:
+- 차별적 언어
+- 괴롭힘
+- 개인 정보 무단 공개
+
+**위반 신고**: conduct@snailer.dev
 
 ---
 
 ## 리소스
 
-### 공식 문서
-- [Rust Book](https://doc.rust-lang.org/book/) - Rust 기초
-- [Async Book](https://rust-lang.github.io/async-book/) - 비동기 프로그래밍
-- [Cargo Book](https://doc.rust-lang.org/cargo/) - 패키지 관리
+### 학습 자료
 
-### 코딩 스타일
-- [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
-- [Conventional Commits](https://www.conventionalcommits.org/)
-- [Google Engineering Practices](https://google.github.io/eng-practices/)
+**Git & GitHub**:
+- [GitHub Skills](https://skills.github.com/) - 무료 튜토리얼
+- [Pro Git Book](https://git-scm.com/book/ko/v2) - Git 완벽 가이드
+
+**Markdown**:
+- [Markdown Guide](https://www.markdownguide.org/)
+- [GitHub Flavored Markdown](https://github.github.com/gfm/)
+
+**오픈소스 기여**:
+- [First Contributions](https://github.com/firstcontributions/first-contributions)
+- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
 
 ### Snailer 문서
-- [Agent Architecture](./AGENT_ARCHITECTURE.md)
-- [Tool System](./TOOL_SYSTEM.md)
-- [ACE System](./ACE_SYSTEM.md)
+
+- [README.md](../README.md) - 프로젝트 소개
+- [AGENT_ARCHITECTURE.md](./AGENT_ARCHITECTURE.md) - 아키텍처
+- [TOOL_SYSTEM.md](./TOOL_SYSTEM.md) - 도구 시스템
+- [ACE_SYSTEM.md](./ACE_SYSTEM.md) - 자기학습 시스템
 
 ---
 
-## 라이선스
+## 마치며
 
-이 프로젝트에 기여함으로써, 귀하의 기여가 프로젝트와 동일한 MIT 라이선스 하에 배포되는 것에 동의하게 됩니다.
+**🎉 기여를 환영합니다!**
+
+작은 기여도 큰 영향을 줍니다. 오타 수정 하나도, 번역 한 문장도 모두 소중합니다.
+
+궁금한 점이 있으면 언제든 이슈를 열거나 Discord에서 물어보세요!
 
 ---
 
 <div align="center">
 
-**🙏 기여해주셔서 감사합니다!**
+**Made with ❤️ by Snailer Contributors**
 
-모든 기여는 Snailer를 더 나은 도구로 만듭니다.
-
-[Website](https://snailer.ai) • [Documentation](./README.md) • [Issues](https://github.com/your-org/snailer/issues)
+[Website](https://snailer.ai) • [Documentation](./README.md) • [Issues](https://github.com/your-org/snailer-cli/issues)
 
 </div>
