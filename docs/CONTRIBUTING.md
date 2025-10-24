@@ -654,17 +654,7 @@ docs/
 ├── ACE_SYSTEM.md                # ACE 자기학습 시스템
 ├── CONTRIBUTING.md              # 기여 가이드 (이 문서!)
 ├── DOCUMENTATION_STATUS.md      # 구현 상태 분석
-│
-├── reference/                   # 참고 문서
-│   ├── README.md
-│   ├── NEXT_ACTION_DSL.md
-│   ├── runbook.md
-│   └── safety-approval.md
-│
-└── experimental/                # 실험 기능
-    ├── README.md
-    └── prompts/
-        └── VS_PROMPTS.md
+
 ```
 
 #### 문서 작성 가이드
