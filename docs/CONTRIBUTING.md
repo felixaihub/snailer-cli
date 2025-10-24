@@ -1,1148 +1,1164 @@
-# Contributing to Snailer
+# Snailer 기여 가이드
 
-Thank you for your interest in contributing to Snailer! This document provides guidelines and best practices for contributing to our project.
+> 🎯 **목표**: 실리콘밸리 빅테크 수준의 코드 품질과 협업 문화를 유지하며, 모든 기여자가 성공적으로 기여할 수 있도록 돕습니다.
 
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Coding Standards](#coding-standards)
-- [Testing](#testing)
-- [Documentation](#documentation)
-- [Pull Request Process](#pull-request-process)
-- [Community](#community)
+**환영합니다!** Snailer 프로젝트에 기여해주셔서 감사합니다. 이 가이드는 Google, Meta, Microsoft 등의 오픈소스 프로젝트 기여 프로세스를 참고하여 작성되었습니다.
 
 ---
 
-## Code of Conduct
+## 📚 목차
 
-### Our Pledge
-
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
-
-### Our Standards
-
-**Positive behaviors include:**
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Focusing on what is best for the community
-- Showing empathy towards other community members
-
-**Unacceptable behaviors include:**
-- The use of sexualized language or imagery and unwelcome sexual attention
-- Trolling, insulting/derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information without explicit permission
-- Other conduct which could reasonably be considered inappropriate
-
-### Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project team at conduct@snailer.dev. All complaints will be reviewed and investigated promptly and fairly.
+1. [시작하기 전에](#시작하기-전에)
+2. [개발 환경 설정](#개발-환경-설정)
+3. [개발 워크플로우](#개발-워크플로우)
+4. [코드 작성 가이드](#코드-작성-가이드)
+5. [테스트 작성](#테스트-작성)
+6. [Pull Request 프로세스](#pull-request-프로세스)
+7. [코드 리뷰](#코드-리뷰)
+8. [커뮤니티 가이드라인](#커뮤니티-가이드라인)
 
 ---
 
-## Getting Started
+## 시작하기 전에
 
-### Prerequisites
+### 행동 강령 (Code of Conduct)
 
-Before you begin, ensure you have the following installed:
+우리는 모든 기여자가 존중받고 환영받는 환경을 만들기 위해 노력합니다.
 
-- **Rust** (latest stable): Install via [rustup](https://rustup.rs/)
-  ```bash
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  ```
+**✅ 권장 행동**:
+- 다양한 관점과 경험을 존중하기
+- 건설적인 피드백을 주고받기
+- 커뮤니티의 이익을 우선 생각하기
+- 실수를 인정하고 배우기
+- 초보자를 돕고 멘토링하기
 
-- **Git**: Version 2.x or higher
+**❌ 금지 행동**:
+- 차별적이거나 모욕적인 언어 사용
+- 개인 공격이나 괴롭힘
+- 타인의 개인 정보 무단 공개
+- 전문적이지 않은 행동
 
-- **Code Editor**: We recommend VS Code with the rust-analyzer extension
+위반 사례는 conduct@snailer.dev로 보고해 주세요. 모든 신고는 기밀로 처리됩니다.
 
-### First-Time Setup
+### 기여 유형
 
-1. **Fork the repository**
+| 유형 | 난이도 | 예시 | 시작 방법 |
+|-----|--------|------|----------|
+| 📝 **문서** | 🟢 초급 | 오타 수정, 예제 추가, 번역 | [Good First Issue](https://github.com/your-org/snailer/labels/good-first-issue) |
+| 🐛 **버그 수정** | 🟡 중급 | 버그 재현 및 수정 | [Bug 라벨](https://github.com/your-org/snailer/labels/bug) |
+| ✨ **기능 추가** | 🔴 고급 | 새 도구, 모델 지원 | [Feature Request](https://github.com/your-org/snailer/labels/feature) |
+| 🧪 **테스트** | 🟢 초급 | 단위/통합 테스트 추가 | [Needs Tests](https://github.com/your-org/snailer/labels/needs-tests) |
+| ⚡ **성능** | 🔴 고급 | 최적화, 프로파일링 | [Performance](https://github.com/your-org/snailer/labels/performance) |
 
-   Click the "Fork" button at the top-right of the [repository page](https://github.com/your-org/snailer).
+### 기여하기 전 체크리스트
 
-2. **Clone your fork**
+- [ ] 이슈가 이미 존재하는지 확인했나요?
+- [ ] 중복된 PR이 없는지 확인했나요?
+- [ ] 큰 변경사항은 먼저 이슈를 열어 논의했나요?
+- [ ] 기여 가이드를 읽었나요?
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/snailer.git
-   cd snailer
-   ```
+---
 
-3. **Add upstream remote**
+## 개발 환경 설정
 
-   ```bash
-   git remote add upstream https://github.com/your-org/snailer.git
-   ```
+### 필수 도구
 
-4. **Install Rust tooling**
-
-   ```bash
-   rustup component add rustfmt clippy
-   cargo install cargo-edit cargo-watch
-   ```
-
-5. **Build the project**
-
-   ```bash
-   cargo build
-   ```
-
-6. **Run tests**
-
-   ```bash
-   cargo test
-   ```
-
-### Environment Configuration
-
-Create a `.env` file in the project root (never commit this file):
+#### 1. Rust 툴체인 (최신 stable)
 
 ```bash
-# AI API Keys (at least one required)
-ANTHROPIC_API_KEY=sk-ant-xxxxx
-OPENAI_API_KEY=sk-xxxxx
-XAI_API_KEY=xai-xxxxx
+# rustup 설치
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-# Optional: gRPC Configuration
-SNAILER_GRPC_ADDR=https://snailer.ai:443
-SNAILER_GRPC_INSECURE=0
+# 버전 확인
+rustc --version  # 1.75.0 이상
+cargo --version
+```
 
-# Development
+#### 2. 필수 컴포넌트
+
+```bash
+# 코드 포맷터
+rustup component add rustfmt
+
+# 린터
+rustup component add clippy
+
+# (선택) 문서 생성
+rustup component add rust-docs
+```
+
+#### 3. 추천 도구
+
+```bash
+# 빠른 빌드를 위한 캐시
+cargo install sccache
+export RUSTC_WRAPPER=sccache
+
+# 파일 변경 감지 및 자동 재빌드
+cargo install cargo-watch
+
+# 의존성 관리
+cargo install cargo-edit
+
+# 테스트 커버리지
+cargo install cargo-tarpaulin
+```
+
+#### 4. 코드 에디터 설정
+
+**VS Code (권장)**:
+```json
+// .vscode/settings.json
+{
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "rust-lang.rust-analyzer",
+  "[rust]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  }
+}
+```
+
+**필수 확장**:
+- `rust-lang.rust-analyzer` (공식 Rust 언어 서버)
+- `vadimcn.vscode-lldb` (디버깅)
+- `serayuzgur.crates` (의존성 버전 확인)
+
+### 저장소 설정
+
+#### 1. Fork & Clone
+
+```bash
+# 1. GitHub에서 Fork 버튼 클릭
+# 2. 본인의 fork를 clone
+git clone https://github.com/YOUR_USERNAME/snailer.git
+cd snailer
+
+# 3. Upstream 리모트 추가
+git remote add upstream https://github.com/your-org/snailer.git
+
+# 4. 리모트 확인
+git remote -v
+# origin    https://github.com/YOUR_USERNAME/snailer.git (fetch)
+# origin    https://github.com/YOUR_USERNAME/snailer.git (push)
+# upstream  https://github.com/your-org/snailer.git (fetch)
+# upstream  https://github.com/your-org/snailer.git (push)
+```
+
+#### 2. 빌드 및 테스트
+
+```bash
+# 전체 빌드 (첫 빌드는 시간이 걸릴 수 있음)
+cargo build
+
+# 릴리스 빌드
+cargo build --release
+
+# 테스트 실행
+cargo test
+
+# 특정 테스트만 실행
+cargo test test_agent
+
+# 린트 검사
+cargo clippy -- -D warnings
+
+# 코드 포맷 확인
+cargo fmt -- --check
+```
+
+#### 3. 환경 변수 설정
+
+```bash
+# .env 파일 생성 (템플릿 복사)
+cp .env.example .env
+
+# 필요한 API 키 설정
+cat > .env << EOF
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+OPENAI_API_KEY=sk-your-key-here
 RUST_LOG=debug
-RUST_BACKTRACE=1
+EOF
 ```
 
 ---
 
-## Development Workflow
+## 개발 워크플로우
 
-### Branch Naming Convention
+### 브랜치 전략
 
-Use descriptive branch names that follow this pattern:
+우리는 **GitHub Flow**를 사용합니다 (단순하고 명확한 워크플로우).
 
-```
-<type>/<issue-number>-<brief-description>
-
-Examples:
-feature/123-add-http-tool
-fix/456-null-pointer-agent
-docs/789-update-readme
-refactor/101-simplify-tool-registry
-```
-
-**Types:**
-- `feature/` - New features or enhancements
-- `fix/` - Bug fixes
-- `docs/` - Documentation only changes
-- `refactor/` - Code refactoring without behavior changes
-- `test/` - Adding or updating tests
-- `perf/` - Performance improvements
-- `chore/` - Build process, dependencies, tooling
-
-### Workflow Steps
-
-1. **Sync with upstream**
-
-   ```bash
-   git checkout main
-   git fetch upstream
-   git rebase upstream/main
-   git push origin main
-   ```
-
-2. **Create a feature branch**
-
-   ```bash
-   git checkout -b feature/123-add-http-tool
-   ```
-
-3. **Make your changes**
-
-   - Write clean, well-documented code
-   - Follow our [coding standards](#coding-standards)
-   - Add tests for new functionality
-   - Update documentation as needed
-
-4. **Commit your changes**
-
-   Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-
-   ```bash
-   git add .
-   git commit -m "feat(tools): add HTTP request tool
-
-   Implements HTTP GET/POST requests with custom headers.
-   Includes timeout handling and error recovery.
-
-   Closes #123"
-   ```
-
-5. **Keep your branch updated**
-
-   ```bash
-   git fetch upstream
-   git rebase upstream/main
-   ```
-
-6. **Push to your fork**
-
-   ```bash
-   git push origin feature/123-add-http-tool
-   ```
-
-7. **Create a Pull Request**
-
-   - Go to your fork on GitHub
-   - Click "Pull Request"
-   - Fill out the PR template
-   - Link related issues
-
-### Commit Message Format
+#### 브랜치 명명 규칙
 
 ```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
+<타입>/<이슈번호>-<간단한-설명>
 ```
 
-**Type** (required):
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, missing semicolons, etc.)
-- `refactor`: Code refactoring
-- `perf`: Performance improvements
-- `test`: Adding or updating tests
-- `build`: Build system changes
-- `ci`: CI/CD changes
-- `chore`: Other changes that don't modify src or test files
+**타입**:
+- `feat/` - 새로운 기능
+- `fix/` - 버그 수정
+- `docs/` - 문서 변경
+- `test/` - 테스트 추가/수정
+- `refactor/` - 리팩토링
+- `perf/` - 성능 개선
+- `chore/` - 빌드, 설정 등
 
-**Scope** (optional): Component affected (e.g., `agent`, `tools`, `api`)
+**예시**:
+```bash
+git checkout -b feat/123-add-http-tool
+git checkout -b fix/456-agent-memory-leak
+git checkout -b docs/789-update-readme
+```
 
-**Subject** (required): Brief description (< 72 chars)
+### 일반적인 개발 사이클
 
-**Body** (optional): Detailed explanation
-
-**Footer** (optional): Breaking changes, issue references
-
-**Examples:**
+#### 1️⃣ 이슈 생성 또는 선택
 
 ```bash
-# Simple fix
-git commit -m "fix(agent): prevent null pointer in tool execution"
+# Good First Issue 찾기
+# https://github.com/your-org/snailer/labels/good-first-issue
 
-# Feature with body
-git commit -m "feat(tools): add HTTP request tool
+# 이슈에 코멘트로 작업 의사 표현
+# "I'd like to work on this issue. Could you assign it to me?"
+```
 
-Implements HTTP GET/POST with the following features:
-- Custom headers support
-- Timeout configuration
+#### 2️⃣ 브랜치 생성 및 작업
+
+```bash
+# upstream에서 최신 코드 가져오기
+git checkout main
+git pull upstream main
+
+# 새 브랜치 생성
+git checkout -b feat/123-add-http-tool
+
+# 작업 진행...
+# (코드 작성, 테스트 추가)
+
+# 자주 커밋하기 (작은 단위로)
+git add src/tools/http.rs
+git commit -m "feat: add basic HTTP client tool structure"
+
+git add tests/tools/http_test.rs
+git commit -m "test: add unit tests for HTTP tool"
+```
+
+#### 3️⃣ 코드 품질 확인
+
+```bash
+# 자동으로 전체 체크 실행
+make check  # 또는 아래 명령들 개별 실행
+
+# 1. 포맷 확인 및 수정
+cargo fmt
+
+# 2. Clippy 린트 (경고를 에러로 처리)
+cargo clippy -- -D warnings
+
+# 3. 테스트 실행
+cargo test
+
+# 4. 문서 빌드 확인
+cargo doc --no-deps
+
+# 5. (선택) 벤치마크 실행
+cargo bench
+```
+
+#### 4️⃣ 커밋 메시지 작성
+
+**Conventional Commits** 스타일을 따릅니다:
+
+```
+<타입>(<스코프>): <제목>
+
+<본문>
+
+<푸터>
+```
+
+**타입**:
+- `feat`: 새로운 기능
+- `fix`: 버그 수정
+- `docs`: 문서 변경
+- `style`: 코드 포맷 (동작 변경 없음)
+- `refactor`: 리팩토링
+- `perf`: 성능 개선
+- `test`: 테스트 추가/수정
+- `chore`: 빌드, 패키지 매니저 설정 등
+
+**예시**:
+
+```
+feat(tools): add HTTP request tool with retry logic
+
+Implement a new HTTP tool that supports:
+- GET/POST/PUT/DELETE methods
 - Automatic retry with exponential backoff
-- JSON/form data encoding
+- Timeout configuration
+- Custom headers support
 
-Closes #123"
+Closes #123
+```
 
-# Breaking change
-git commit -m "refactor(api)!: rename ApiClient to ModelClient
+**좋은 커밋 메시지**:
+```
+✅ feat(agent): implement context compression for long conversations
+✅ fix(db): resolve SQLite connection pool exhaustion
+✅ docs(readme): add installation instructions for Windows
+✅ test(tools): add integration tests for shell command tool
+```
 
-BREAKING CHANGE: ApiClient has been renamed to ModelClient.
-Users need to update their imports."
+**나쁜 커밋 메시지**:
+```
+❌ fix bug
+❌ update code
+❌ WIP
+❌ asdfasdf
+```
+
+#### 5️⃣ Push 및 PR 생성
+
+```bash
+# 본인의 fork에 push
+git push origin feat/123-add-http-tool
+
+# GitHub에서 Pull Request 생성
+# (자동으로 PR 생성 링크가 나타남)
 ```
 
 ---
 
-## Coding Standards
+## 코드 작성 가이드
 
-### Rust Style Guide
+### Rust 코딩 스타일
 
-We follow the official [Rust Style Guide](https://doc.rust-lang.org/nightly/style-guide/) with additional project-specific conventions.
-
-#### Formatting
-
-**Always run before committing:**
-
-```bash
-cargo fmt --all
-```
-
-**Check formatting without modifying files:**
-
-```bash
-cargo fmt --all -- --check
-```
-
-#### Linting
-
-**Run Clippy with all warnings:**
-
-```bash
-cargo clippy --all-targets --all-features -- -D warnings
-```
-
-**Common Clippy fixes:**
-
-```bash
-# Auto-fix safe suggestions
-cargo clippy --fix --all-targets --all-features
-```
-
-### Code Organization
-
-#### Module Structure
+#### 1. 네이밍 컨벤션
 
 ```rust
-// src/your_module.rs
-
-//! Module-level documentation.
-//!
-//! This module provides...
-
-// Standard library imports
-use std::collections::HashMap;
-use std::path::PathBuf;
-
-// External crate imports
-use anyhow::{Context, Result};
-use serde::{Deserialize, Serialize};
-use tokio::sync::RwLock;
-
-// Internal crate imports
-use crate::agent::Agent;
-use crate::tools::ToolRegistry;
-
-// Constants
-const DEFAULT_TIMEOUT: u64 = 30_000;
-const MAX_RETRIES: usize = 3;
-
-// Type aliases
-type ToolResult = Result<String, ToolError>;
-
-// Public types
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct YourType {
-    // Public fields first
-    pub id: String,
-    pub name: String,
-
-    // Private fields
-    cache: HashMap<String, String>,
+// ✅ 구조체: PascalCase
+pub struct ToolRegistry {
+    // ✅ 필드: snake_case
+    project_path: PathBuf,
+    tool_cache: HashMap<String, Box<dyn Tool>>,
 }
 
-// Trait implementations
-impl Default for YourType {
-    fn default() -> Self {
-        Self {
-            id: String::new(),
-            name: String::new(),
-            cache: HashMap::new(),
-        }
-    }
+// ✅ 함수/메서드: snake_case
+pub async fn execute_tool(&self, name: &str) -> Result<String> {
+    // ✅ 로컬 변수: snake_case
+    let tool_result = self.run_internal(name).await?;
+
+    // ✅ 상수: SCREAMING_SNAKE_CASE
+    const MAX_RETRIES: usize = 3;
+
+    Ok(tool_result)
 }
 
-// Main implementation
-impl YourType {
-    /// Creates a new instance.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use snailer::YourType;
-    /// let instance = YourType::new("id", "name");
-    /// ```
-    pub fn new(id: impl Into<String>, name: impl Into<String>) -> Self {
-        Self {
-            id: id.into(),
-            name: name.into(),
-            cache: HashMap::new(),
-        }
-    }
-
-    // Public methods
-    pub fn process(&mut self) -> Result<()> {
-        self.validate()?;
-        self.execute()?;
-        Ok(())
-    }
-
-    // Private methods
-    fn validate(&self) -> Result<()> {
-        // Implementation
-        Ok(())
-    }
-
-    fn execute(&mut self) -> Result<()> {
-        // Implementation
-        Ok(())
-    }
+// ✅ Enum: PascalCase
+pub enum ExecutionMode {
+    // ✅ Variant: PascalCase
+    Simple,
+    Agent,
+    GrpoRollout,
 }
 
-// Tests module at the end
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_new() {
-        let instance = YourType::new("test_id", "test_name");
-        assert_eq!(instance.id, "test_id");
-        assert_eq!(instance.name, "test_name");
-    }
+// ✅ Trait: PascalCase (형용사형 선호)
+pub trait Executable {
+    fn execute(&self) -> Result<()>;
 }
 ```
 
-### Naming Conventions
-
-#### Functions and Variables
+#### 2. 에러 처리
 
 ```rust
-// ✅ Good: Snake case, descriptive
-fn execute_tool_with_timeout(tool_name: &str, timeout_ms: u64) -> Result<String>
-let retry_count = 0;
-let is_enabled = true;
+// ✅ Good - Result와 ? 연산자 사용
+pub async fn read_file(&self, path: &str) -> Result<String> {
+    let content = tokio::fs::read_to_string(path).await
+        .context(format!("Failed to read file: {}", path))?;
 
-// ❌ Bad: Camel case, abbreviations
-fn ExecuteTool(t: &str, to: u64) -> Result<String>
-let rc = 0;
-let enabled = true;  // Ambiguous
-```
-
-#### Types and Traits
-
-```rust
-// ✅ Good: Pascal case, descriptive
-struct ToolRegistry;
-enum BulletType;
-trait Executable;
-
-// ❌ Bad: Snake case, generic
-struct tool_registry;
-enum bullet_type;
-trait Exec;
-```
-
-#### Constants
-
-```rust
-// ✅ Good: Screaming snake case
-const MAX_ITERATIONS: usize = 50;
-const DEFAULT_TIMEOUT_MS: u64 = 30_000;
-
-// ❌ Bad: Other cases
-const maxIterations: usize = 50;
-const default_timeout: u64 = 30000;
-```
-
-### Error Handling
-
-**Use `Result` types, not `panic!`:**
-
-```rust
-// ✅ Good: Proper error handling
-pub fn read_file(path: &Path) -> Result<String> {
-    let content = std::fs::read_to_string(path)
-        .with_context(|| format!("Failed to read file: {}", path.display()))?;
     Ok(content)
 }
 
-// ❌ Bad: Using panic
-pub fn read_file(path: &Path) -> String {
-    std::fs::read_to_string(path).expect("file must exist")
+// ❌ Bad - unwrap() 사용
+pub async fn read_file(&self, path: &str) -> String {
+    tokio::fs::read_to_string(path).await.unwrap()  // 절대 금지!
+}
+
+// ✅ Good - 명확한 에러 메시지
+if user_id.is_empty() {
+    return Err(anyhow!(
+        "User ID cannot be empty. Please provide a valid user ID."
+    ));
+}
+
+// ❌ Bad - 불명확한 에러
+if user_id.is_empty() {
+    return Err(anyhow!("Invalid input"));
 }
 ```
 
-**Custom error types when appropriate:**
+#### 3. 문서화 (Rustdoc)
 
 ```rust
-use thiserror::Error;
-
-#[derive(Error, Debug)]
-pub enum ToolError {
-    #[error("Tool not found: {0}")]
-    NotFound(String),
-
-    #[error("Tool execution failed: {0}")]
-    ExecutionFailed(String),
-
-    #[error("Timeout after {0}ms")]
-    Timeout(u64),
-
-    #[error(transparent)]
-    Io(#[from] std::io::Error),
-}
-```
-
-### Documentation
-
-#### Public API Documentation
-
-Every public item must have documentation:
-
-```rust
-/// Executes a tool and returns the result.
+/// HTTP 요청을 실행하는 도구입니다.
 ///
-/// This function looks up the tool by name, validates parameters,
-/// and executes it with proper error handling and timeout.
+/// # 예제
 ///
-/// # Arguments
+/// ```
+/// use snailer::tools::HttpTool;
 ///
-/// * `tool_name` - The name of the tool to execute (e.g., "read_file")
-/// * `params` - JSON parameters for the tool
-/// * `timeout_ms` - Maximum execution time in milliseconds
-///
-/// # Returns
-///
-/// Returns `Ok(String)` with the tool output on success, or `Err(ToolError)`
-/// if the tool is not found, parameters are invalid, or execution fails.
+/// let tool = HttpTool::new();
+/// let result = tool.get("https://api.example.com/data").await?;
+/// ```
 ///
 /// # Errors
 ///
-/// This function will return an error if:
-/// - The tool is not registered
-/// - Parameters don't match the tool's schema
-/// - Execution times out
-/// - The tool itself returns an error
-///
-/// # Examples
-///
-/// ```
-/// use snailer::ToolRegistry;
-/// use serde_json::json;
-///
-/// let registry = ToolRegistry::new(".");
-/// let result = registry.execute_tool(
-///     "read_file",
-///     json!({"path": "README.md"}),
-///     30000
-/// )?;
-/// ```
+/// - 네트워크 연결 실패 시 [`std::io::Error`]를 반환합니다.
+/// - 잘못된 URL 형식일 경우 [`url::ParseError`]를 반환합니다.
 ///
 /// # Panics
 ///
-/// This function does not panic under normal circumstances.
+/// 이 함수는 panic하지 않습니다.
+pub async fn get(&self, url: &str) -> Result<String> {
+    // ...
+}
+
+/// 사용자 설정을 관리하는 구조체
 ///
-/// # Safety
+/// # Fields
 ///
-/// This function is safe to call from multiple threads.
-pub fn execute_tool(
-    &self,
-    tool_name: &str,
-    params: Value,
-    timeout_ms: u64
-) -> Result<String, ToolError> {
-    // Implementation
+/// * `user_id` - 고유한 사용자 식별자 (UUID 형식)
+/// * `model` - 사용할 AI 모델 이름 (예: "claude-4.5")
+/// * `max_tokens` - 최대 토큰 수 (기본값: 4096)
+pub struct UserConfig {
+    pub user_id: String,
+    pub model: String,
+    pub max_tokens: usize,
 }
 ```
 
-#### Module Documentation
+#### 4. 타입 안전성
 
 ```rust
-//! Tool execution and management.
-//!
-//! This module provides the [`ToolRegistry`] for managing and executing
-//! tools that the AI agent can use. Tools are registered with JSON schemas
-//! defining their parameters, and executed with runtime validation.
-//!
-//! # Architecture
-//!
-//! The tool system follows a registry pattern where:
-//! 1. Tools are defined with name, description, and JSON schema
-//! 2. The registry validates parameters against schemas
-//! 3. Tools are executed with timeout and error handling
-//!
-//! # Examples
-//!
-//! ```
-//! use snailer::tools::ToolRegistry;
-//!
-//! let registry = ToolRegistry::new(".");
-//! let tools = registry.get_tools();
-//! ```
-```
+// ✅ Good - newtype pattern으로 타입 안전성 확보
+#[derive(Debug, Clone)]
+pub struct UserId(String);
 
-### Async/Await Best Practices
-
-```rust
-// ✅ Good: Clear async boundaries
-pub async fn fetch_data(url: &str) -> Result<String> {
-    let response = reqwest::get(url).await?;
-    let text = response.text().await?;
-    Ok(text)
+impl UserId {
+    pub fn new(id: String) -> Result<Self> {
+        if id.is_empty() {
+            return Err(anyhow!("User ID cannot be empty"));
+        }
+        Ok(UserId(id))
+    }
 }
 
-// ✅ Good: Use tokio::spawn for concurrent tasks
-pub async fn process_many(items: Vec<String>) -> Result<Vec<String>> {
-    let tasks: Vec<_> = items
-        .into_iter()
-        .map(|item| tokio::spawn(async move { process_item(item).await }))
-        .collect();
+// ✅ Good - 명시적 타입
+pub async fn execute(&self, user: UserId) -> Result<ExecutionResult> {
+    // user는 UserId 타입으로만 받을 수 있음
+}
 
-    let results = futures::future::try_join_all(tasks).await?;
+// ❌ Bad - String 남발
+pub async fn execute(&self, user: String) -> Result<String> {
+    // 어떤 String인지 불명확
+}
+```
+
+#### 5. 비동기 코드
+
+```rust
+// ✅ Good - 명시적 async/await
+pub async fn process_tasks(&self, tasks: Vec<Task>) -> Result<Vec<TaskResult>> {
+    let mut results = Vec::new();
+
+    for task in tasks {
+        let result = self.execute_task(&task).await?;
+        results.push(result);
+    }
+
     Ok(results)
 }
 
-// ❌ Bad: Blocking in async context
-pub async fn bad_read_file(path: &Path) -> Result<String> {
-    // Don't do this! Blocks the async runtime
-    Ok(std::fs::read_to_string(path)?)
+// ✅ Better - 병렬 처리
+use futures::future::join_all;
+
+pub async fn process_tasks(&self, tasks: Vec<Task>) -> Result<Vec<TaskResult>> {
+    let futures = tasks.iter().map(|task| self.execute_task(task));
+    let results = join_all(futures).await;
+
+    results.into_iter().collect()
 }
 
-// ✅ Good: Use tokio::fs for async file I/O
-pub async fn good_read_file(path: &Path) -> Result<String> {
-    Ok(tokio::fs::read_to_string(path).await?)
-}
-```
+// ✅ Good - timeout 설정
+use tokio::time::{timeout, Duration};
 
-### Performance Guidelines
+pub async fn execute_with_timeout(&self) -> Result<String> {
+    let result = timeout(
+        Duration::from_secs(30),
+        self.long_running_task()
+    ).await??;  // timeout error + task error
 
-**Use appropriate data structures:**
-
-```rust
-// ✅ Good: Vec for sequential access
-let items: Vec<String> = vec![];
-
-// ✅ Good: HashMap for key-value lookups
-let cache: HashMap<String, String> = HashMap::new();
-
-// ✅ Good: BTreeMap for sorted iteration
-let sorted: BTreeMap<String, i32> = BTreeMap::new();
-```
-
-**Avoid unnecessary allocations:**
-
-```rust
-// ✅ Good: Borrowing
-fn process_string(s: &str) -> usize {
-    s.len()
-}
-
-// ❌ Bad: Unnecessary clone
-fn process_string(s: String) -> usize {
-    s.len()
-}
-
-// ✅ Good: Cow for conditional cloning
-use std::borrow::Cow;
-
-fn maybe_modify(s: &str, should_modify: bool) -> Cow<str> {
-    if should_modify {
-        Cow::Owned(s.to_uppercase())
-    } else {
-        Cow::Borrowed(s)
-    }
+    Ok(result)
 }
 ```
 
-**Use iterators instead of collecting:**
+### 코드 구조
+
+#### 디렉토리 구조
+
+```
+src/
+├── main.rs              # 엔트리포인트
+├── lib.rs               # 라이브러리 루트
+├── agent/               # Agent 관련
+│   ├── mod.rs
+│   ├── executor.rs
+│   └── context.rs
+├── tools/               # 도구 구현
+│   ├── mod.rs
+│   ├── registry.rs
+│   ├── shell.rs
+│   ├── file.rs
+│   └── http.rs
+├── api/                 # API 클라이언트
+│   ├── mod.rs
+│   ├── claude.rs
+│   └── openai.rs
+├── db/                  # 데이터베이스
+│   ├── mod.rs
+│   └── metrics.rs
+└── utils/               # 유틸리티
+    ├── mod.rs
+    └── terminal.rs
+```
+
+#### 모듈 구성
 
 ```rust
-// ✅ Good: Iterator chain
-let sum: i32 = items
-    .iter()
-    .filter(|&&x| x > 0)
-    .map(|&x| x * 2)
-    .sum();
+// src/tools/mod.rs
+mod registry;
+mod shell;
+mod file;
+mod http;
 
-// ❌ Bad: Multiple collections
-let filtered: Vec<_> = items.iter().filter(|&&x| x > 0).collect();
-let doubled: Vec<_> = filtered.iter().map(|&&x| x * 2).collect();
-let sum: i32 = doubled.iter().sum();
+pub use registry::ToolRegistry;
+pub use shell::ShellTool;
+pub use file::{FileReader, FileWriter};
+pub use http::HttpTool;
+
+// 내부용 (pub 없음)
+mod internal_helper;
 ```
 
 ---
 
-## Testing
+## 테스트 작성
 
-### Test Organization
+### 테스트 전략
+
+```
+┌─────────────────────────────────────┐
+│  1. Unit Tests (단위 테스트)         │  ← 가장 많이 작성
+│     - 개별 함수/메서드 테스트         │
+│     - src/ 파일 내부에 작성          │
+├─────────────────────────────────────┤
+│  2. Integration Tests (통합 테스트)  │  ← 핵심 흐름 검증
+│     - 여러 컴포넌트 조합 테스트       │
+│     - tests/ 디렉토리에 작성         │
+├─────────────────────────────────────┤
+│  3. Doc Tests (문서 테스트)          │  ← 예제 코드 검증
+│     - Rustdoc 예제 자동 실행         │
+│     - /// ``` 블록 내부              │
+└─────────────────────────────────────┘
+```
+
+### 1. 단위 테스트 (Unit Tests)
 
 ```rust
+// src/tools/http.rs
+
+pub struct HttpTool {
+    client: reqwest::Client,
+    timeout: Duration,
+}
+
+impl HttpTool {
+    pub fn new(timeout: Duration) -> Self {
+        Self {
+            client: reqwest::Client::new(),
+            timeout,
+        }
+    }
+
+    pub async fn get(&self, url: &str) -> Result<String> {
+        let response = self.client
+            .get(url)
+            .timeout(self.timeout)
+            .send()
+            .await?;
+
+        Ok(response.text().await?)
+    }
+}
+
+// ✅ 같은 파일 하단에 테스트 모듈
 #[cfg(test)]
 mod tests {
     use super::*;
+    use tokio;
 
-    // Unit tests
-    mod unit {
-        use super::*;
+    #[tokio::test]
+    async fn test_http_get_success() {
+        let tool = HttpTool::new(Duration::from_secs(10));
+        let result = tool.get("https://httpbin.org/get").await;
 
-        #[test]
-        fn test_function_name() {
-            // Arrange
-            let input = "test";
-
-            // Act
-            let result = function_under_test(input);
-
-            // Assert
-            assert_eq!(result, expected);
-        }
+        assert!(result.is_ok());
     }
 
-    // Integration tests
-    mod integration {
-        use super::*;
+    #[tokio::test]
+    async fn test_http_timeout() {
+        let tool = HttpTool::new(Duration::from_millis(1));
+        let result = tool.get("https://httpbin.org/delay/10").await;
 
-        #[tokio::test]
-        async fn test_async_flow() {
-            // Test implementation
-        }
-    }
-}
-```
-
-### Testing Best Practices
-
-**1. Test one thing per test:**
-
-```rust
-// ✅ Good: Focused test
-#[test]
-fn test_bullet_creation_sets_default_utility() {
-    let bullet = Bullet::new("content");
-    assert_eq!(bullet.utility, 0.5);
-}
-
-#[test]
-fn test_bullet_creation_sets_usage_count_to_zero() {
-    let bullet = Bullet::new("content");
-    assert_eq!(bullet.usage_count, 0);
-}
-
-// ❌ Bad: Testing multiple things
-#[test]
-fn test_bullet_creation() {
-    let bullet = Bullet::new("content");
-    assert_eq!(bullet.utility, 0.5);
-    assert_eq!(bullet.usage_count, 0);
-    assert!(bullet.id.is_some());
-    // Too many assertions
-}
-```
-
-**2. Use descriptive test names:**
-
-```rust
-// ✅ Good: Descriptive
-#[test]
-fn test_execute_tool_returns_error_when_tool_not_found()
-
-#[test]
-fn test_bullet_utility_increases_after_successful_usage()
-
-// ❌ Bad: Generic
-#[test]
-fn test_execute()
-
-#[test]
-fn test_bullet()
-```
-
-**3. Test error cases:**
-
-```rust
-#[test]
-fn test_read_file_returns_error_for_nonexistent_file() {
-    let registry = ToolRegistry::new(".");
-    let result = registry.execute_tool(
-        "read_file",
-        json!({"path": "nonexistent.txt"}),
-        30000
-    );
-
-    assert!(result.is_err());
-    assert!(matches!(result.unwrap_err(), ToolError::Io(_)));
-}
-```
-
-**4. Use fixtures for complex test data:**
-
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn create_test_bullet() -> Bullet {
-        Bullet {
-            id: Uuid::new_v4(),
-            content: "Test content".to_string(),
-            bullet_type: BulletType::KNOWLEDGE,
-            layer: Layer::PROJECT,
-            utility: 0.5,
-            usage_count: 0,
-            last_used: None,
-            confidence: 0.8,
-            tags: vec![],
-        }
+        assert!(result.is_err());
+        assert!(result.unwrap_err().to_string().contains("timeout"));
     }
 
-    #[test]
-    fn test_using_fixture() {
-        let bullet = create_test_bullet();
-        // Use bullet in test
+    #[tokio::test]
+    async fn test_http_invalid_url() {
+        let tool = HttpTool::new(Duration::from_secs(10));
+        let result = tool.get("not-a-valid-url").await;
+
+        assert!(result.is_err());
     }
 }
 ```
 
-### Running Tests
+### 2. 통합 테스트 (Integration Tests)
+
+```rust
+// tests/agent_integration_test.rs
+
+use snailer::Agent;
+use std::path::PathBuf;
+
+#[tokio::test]
+async fn test_agent_executes_shell_command() {
+    let mut agent = Agent::new(
+        "List files in current directory".to_string(),
+        PathBuf::from("."),
+        "claude-4.5".to_string()
+    ).unwrap();
+
+    // Mock API 응답 설정 (실제 API 호출 안 함)
+    agent.set_mock_response(r#"{
+        "content": [{
+            "type": "tool_use",
+            "name": "shell",
+            "input": {"command": "ls"}
+        }]
+    }"#);
+
+    let result = agent.run_agent_mode().await;
+
+    assert!(result.is_ok());
+    assert!(agent.tool_calls_count() > 0);
+}
+
+#[tokio::test]
+async fn test_agent_handles_cancellation() {
+    let mut agent = Agent::new(
+        "Long running task".to_string(),
+        PathBuf::from("."),
+        "claude-4.5".to_string()
+    ).unwrap();
+
+    // 1초 후 취소
+    tokio::spawn(async move {
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        agent.cancel();
+    });
+
+    let result = agent.run_agent_mode().await;
+
+    assert!(result.is_ok());
+    assert!(agent.was_cancelled());
+}
+```
+
+### 3. 문서 테스트 (Doc Tests)
+
+```rust
+/// HTTP GET 요청을 수행합니다.
+///
+/// # 예제
+///
+/// ```
+/// use snailer::tools::HttpTool;
+/// use tokio::time::Duration;
+///
+/// # tokio_test::block_on(async {
+/// let tool = HttpTool::new(Duration::from_secs(10));
+/// let html = tool.get("https://example.com").await?;
+/// assert!(html.contains("Example Domain"));
+/// # Ok::<(), anyhow::Error>(())
+/// # });
+/// ```
+pub async fn get(&self, url: &str) -> Result<String> {
+    // ...
+}
+```
+
+### 테스트 커버리지
 
 ```bash
-# Run all tests
+# 커버리지 측정
+cargo tarpaulin --out Html --output-dir coverage
+
+# 브라우저에서 확인
+open coverage/index.html
+```
+
+**목표 커버리지**:
+- 🎯 **핵심 로직**: 80% 이상
+- 🎯 **도구 구현**: 70% 이상
+- 🎯 **유틸리티**: 60% 이상
+
+---
+
+## Pull Request 프로세스
+
+### PR 생성 전 체크리스트
+
+```bash
+# 1. 최신 main 브랜치 머지
+git checkout main
+git pull upstream main
+git checkout feat/123-add-http-tool
+git merge main
+
+# 2. 코드 품질 확인
+cargo fmt
+cargo clippy -- -D warnings
 cargo test
 
-# Run specific test
-cargo test test_bullet_creation
+# 3. 문서 확인
+cargo doc --no-deps --open
 
-# Run tests with output
-cargo test -- --nocapture
-
-# Run tests in parallel (default)
-cargo test -- --test-threads=4
-
-# Run doc tests
-cargo test --doc
-
-# Run integration tests only
-cargo test --test '*'
-
-# Run with coverage (requires tarpaulin)
-cargo tarpaulin --out Html
+# 4. 커밋 정리 (필요시)
+git rebase -i main
 ```
 
-### Benchmarking
+### PR 템플릿
+
+```markdown
+## 📝 변경 사항 요약
+
+간결하게 무엇을 변경했는지 설명해주세요.
+
+## 🔗 관련 이슈
+
+Closes #123
+
+## 🎯 변경 유형
+
+- [ ] 🐛 버그 수정
+- [ ] ✨ 새 기능
+- [ ] 📝 문서 업데이트
+- [ ] ♻️ 리팩토링
+- [ ] ⚡ 성능 개선
+- [ ] 🧪 테스트 추가
+
+## 🧪 테스트 방법
+
+어떻게 테스트했는지 설명해주세요:
+
+1. `cargo test` 실행
+2. 수동 테스트: ...
+3. 엣지 케이스 확인: ...
+
+## 📸 스크린샷 (UI 변경인 경우)
+
+Before / After 스크린샷
+
+## ✅ 체크리스트
+
+- [ ] 코드가 `cargo fmt`로 포맷되었습니다
+- [ ] `cargo clippy`를 통과했습니다
+- [ ] 모든 테스트가 통과했습니다 (`cargo test`)
+- [ ] 새로운 기능에 대한 테스트를 추가했습니다
+- [ ] 문서를 업데이트했습니다
+- [ ] CHANGELOG.md를 업데이트했습니다 (해당하는 경우)
+
+## 💬 추가 설명
+
+리뷰어가 알아야 할 추가 정보나 질문이 있다면 작성해주세요.
+```
+
+### PR 크기 가이드
+
+| 크기 | 변경 라인 수 | 리뷰 시간 | 권장 사항 |
+|-----|------------|----------|----------|
+| 🟢 **Small** | < 100 | 10분 | 이상적 ✅ |
+| 🟡 **Medium** | 100-300 | 30분 | 괜찮음 |
+| 🟠 **Large** | 300-500 | 1시간 | 나누는 것 고려 |
+| 🔴 **Huge** | > 500 | 2시간+ | 반드시 나누기 ❌ |
+
+**큰 PR 나누는 방법**:
+```
+# 예: HTTP 도구 추가 (500줄)
+
+PR 1: feat: add HTTP client basic structure (100줄)
+PR 2: feat: add HTTP retry logic (150줄)
+PR 3: feat: add HTTP authentication (100줄)
+PR 4: test: add HTTP integration tests (150줄)
+```
+
+---
+
+## 코드 리뷰
+
+### 리뷰어 가이드
+
+**리뷰 시 확인 사항**:
+
+1. **정확성 (Correctness)**
+   - [ ] 코드가 의도한 대로 동작하는가?
+   - [ ] 엣지 케이스를 처리하는가?
+   - [ ] 에러 처리가 적절한가?
+
+2. **설계 (Design)**
+   - [ ] 코드 구조가 합리적인가?
+   - [ ] 적절한 추상화 수준인가?
+   - [ ] 재사용 가능한가?
+
+3. **가독성 (Readability)**
+   - [ ] 변수/함수 이름이 명확한가?
+   - [ ] 주석이 필요한 곳에 있는가?
+   - [ ] 코드가 자기 설명적인가?
+
+4. **테스트 (Testing)**
+   - [ ] 충분한 테스트가 있는가?
+   - [ ] 테스트가 의미 있는가?
+   - [ ] 실패 케이스를 테스트하는가?
+
+5. **문서 (Documentation)**
+   - [ ] Public API에 문서가 있는가?
+   - [ ] 예제 코드가 있는가?
+   - [ ] README가 업데이트되었는가?
+
+### 리뷰 코멘트 스타일
+
+**✅ 좋은 리뷰 코멘트**:
+
+```markdown
+**[성능]** 이 루프는 매번 HashMap을 할당합니다.
+루프 밖으로 빼면 어떨까요?
+
+Before:
+for item in items {
+    let mut map = HashMap::new();
+    // ...
+}
+
+After:
+let mut map = HashMap::new();
+for item in items {
+    map.clear();
+    // ...
+}
+```
+
+```markdown
+**[질문]** 왜 여기서 `unwrap()`을 사용하셨나요?
+이 함수가 실패할 가능성이 있다면 `?`를 사용하는 게
+더 좋을 것 같습니다.
+```
+
+```markdown
+**[칭찬]** 이 추상화 정말 깔끔하네요! 테스트하기도
+훨씬 쉬워졌습니다. 👍
+```
+
+**❌ 나쁜 리뷰 코멘트**:
+
+```markdown
+❌ "이거 안 좋은데요."  (이유 없음)
+❌ "이렇게 하지 마세요."  (대안 없음)
+❌ "누가 이렇게 코드를 짜요?"  (불친절)
+```
+
+### 리뷰 라벨
+
+- `LGTM` (Looks Good To Me) - 승인
+- `nit` - 사소한 제안 (블로킹 아님)
+- `question` - 질문
+- `blocker` - 반드시 수정 필요
+
+---
+
+## 커뮤니티 가이드라인
+
+### 질문하기
+
+**좋은 질문**:
+```markdown
+## 질문: Agent 컨텍스트 압축 동작 방식
+
+안녕하세요! Agent의 컨텍스트 압축 기능을 이해하려고 합니다.
+
+**현재 이해**:
+- `compact_context()`가 오래된 대화를 압축한다
+- 최근 N개 메시지는 유지된다
+
+**질문**:
+1. N의 기본값은 몇 개인가요?
+2. 압축 시 AI를 호출하는데, 비용은 어떻게 되나요?
+3. 압축된 내용은 어디에 저장되나요?
+
+**시도한 것**:
+- 코드를 읽어봤지만 압축 로직이 복잡해서 확신이 없습니다
+- 문서를 찾아봤지만 상세 설명이 없었습니다
+
+감사합니다!
+```
+
+### 이슈 보고하기
+
+**버그 리포트 템플릿**:
+
+```markdown
+## 🐛 버그 설명
+
+Agent가 특정 파일을 읽을 때 메모리가 계속 증가합니다.
+
+## 재현 방법
+
+1. 10MB 이상의 파일 생성
+2. `snailer --agent --prompt "파일 내용 요약해줘"`
+3. 메모리 사용량 모니터링
+
+## 예상 동작
+
+파일을 읽은 후 메모리가 해제되어야 합니다.
+
+## 실제 동작
+
+메모리 사용량이 계속 증가합니다 (10MB → 50MB).
+
+## 환경
+
+- OS: macOS 14.0
+- Rust 버전: 1.75.0
+- Snailer 버전: 0.1.14
+- 모델: claude-4.5
+
+## 로그
+
+RUST_LOG=debug snailer ...
+[2025-01-15 10:30:00] DEBUG Reading file: large.txt
+[2025-01-15 10:30:05] DEBUG Memory: 50MB
+...
+
+## 추가 정보
+
+Activity Monitor 스크린샷 첨부
+```
+
+### 멘토링 & 도움 주기
+
+**초보자를 도울 때**:
+- ✅ 인내심을 가지세요
+- ✅ "바보같은 질문은 없습니다"
+- ✅ 문서 링크를 제공하세요
+- ✅ 예제 코드를 보여주세요
+- ❌ "이건 너무 쉬운데요" 같은 말 하지 마세요
+
+**도움 요청할 때**:
+- ✅ 스스로 먼저 시도하세요
+- ✅ 무엇을 시도했는지 설명하세요
+- ✅ 구체적으로 질문하세요
+- ❌ "안 돼요. 도와주세요" 만 쓰지 마세요
+
+---
+
+## 고급 주제
+
+### 성능 프로파일링
+
+```bash
+# CPU 프로파일링
+cargo build --release
+perf record --call-graph=dwarf ./target/release/snailer
+perf report
+
+# 메모리 프로파일링
+valgrind --tool=massif ./target/release/snailer
+```
+
+### 벤치마킹
 
 ```rust
-#[cfg(test)]
-mod benches {
-    use super::*;
-    use criterion::{black_box, criterion_group, criterion_main, Criterion};
+// benches/agent_benchmark.rs
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use snailer::Agent;
 
-    fn bench_bullet_selection(c: &mut Criterion) {
-        let store = create_test_store();
+fn bench_agent_execution(c: &mut Criterion) {
+    c.bench_function("agent simple mode", |b| {
+        b.iter(|| {
+            let mut agent = Agent::new(
+                black_box("Hello".to_string()),
+                PathBuf::from("."),
+                "claude-4.5".to_string()
+            ).unwrap();
 
-        c.bench_function("select_relevant_bullets", |b| {
-            b.iter(|| {
-                store.select_relevant_bullets(
-                    black_box("test query"),
-                    black_box(20)
-                )
-            })
+            agent.run_simple_mode()
         });
-    }
+    });
+}
 
-    criterion_group!(benches, bench_bullet_selection);
-    criterion_main!(benches);
+criterion_group!(benches, bench_agent_execution);
+criterion_main!(benches);
+```
+
+### Unsafe 코드
+
+```rust
+// ⚠️ Unsafe 코드는 최후의 수단입니다
+// 반드시 리뷰어와 논의 후 사용하세요
+
+// ✅ Good - 이유와 안전성 설명
+/// SAFETY: ptr은 항상 유효한 메모리를 가리키며,
+/// lifetime 'a는 데이터가 살아있음을 보장합니다.
+unsafe fn read_ptr<'a>(ptr: *const u8) -> &'a u8 {
+    &*ptr
+}
+
+// ❌ Bad - 설명 없는 unsafe
+unsafe fn do_something(ptr: *const u8) {
+    // ...
 }
 ```
 
 ---
 
-## Documentation
+## 릴리스 프로세스
 
-### README Updates
+### 버전 관리 (Semantic Versioning)
 
-If your PR adds a new feature, update the README.md:
+```
+MAJOR.MINOR.PATCH
 
-1. Add to Features section
-2. Update Usage examples
-3. Add to Table of Contents
+MAJOR: 호환성 깨는 변경 (Breaking Changes)
+MINOR: 새 기능 추가 (Backward Compatible)
+PATCH: 버그 수정
+```
 
-### Changelog
+**예시**:
+- `0.1.14 → 0.1.15`: 버그 수정
+- `0.1.15 → 0.2.0`: 새 기능 추가
+- `0.2.0 → 1.0.0`: 정식 릴리스
+- `1.0.0 → 2.0.0`: Breaking change
 
-Update `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/):
+### CHANGELOG 작성
 
 ```markdown
-## [Unreleased]
+# Changelog
+
+## [0.2.0] - 2025-01-20
 
 ### Added
-- HTTP request tool for external API calls (#123)
-
-### Fixed
-- Null pointer exception in agent tool execution (#456)
+- HTTP 도구 추가 (#123)
+- 컨텍스트 자동 압축 기능 (#145)
 
 ### Changed
-- Improved error messages for tool validation
+- Agent 실행 루프 성능 30% 개선 (#134)
+- 에러 메시지 개선 (#156)
+
+### Fixed
+- 메모리 누수 수정 (#167)
+- Windows에서 파일 경로 문제 해결 (#178)
 
 ### Deprecated
-- Old API client interface (use ModelClient instead)
+- `old_api()` 대신 `new_api()` 사용 권장
 
 ### Removed
-- Legacy tool execution method
+- 실험적 GRPO 모드 제거 (별도 브랜치로 이동)
 
 ### Security
-- Fixed path traversal vulnerability in file operations
-```
-
-### API Documentation
-
-Generate and review API documentation:
-
-```bash
-# Generate docs
-cargo doc --no-deps --open
-
-# Check for missing docs
-cargo doc --no-deps 2>&1 | grep warning
-
-# Generate docs with private items
-cargo doc --no-deps --document-private-items
+- 의존성 보안 업데이트: tokio 1.35.0 → 1.36.0
 ```
 
 ---
 
-## Pull Request Process
+## 자주 묻는 질문 (FAQ)
 
-### Before Submitting
+### Q: 첫 기여로 무엇을 하면 좋을까요?
 
-**Pre-submission checklist:**
+**A**: `good-first-issue` 라벨을 찾아보세요:
+1. 문서 오타 수정
+2. 예제 코드 추가
+3. 테스트 추가
+4. 간단한 버그 수정
 
-- [ ] Code compiles without warnings
-  ```bash
-  cargo build --all-targets --all-features
-  ```
+### Q: 코드 리뷰가 오래 걸리는데 어떻게 하나요?
 
-- [ ] All tests pass
-  ```bash
-  cargo test
-  ```
+**A**:
+- 보통 2-3일 내 리뷰됩니다
+- 1주일 이상 걸리면 친절하게 핑(ping) 해주세요
+- Discord에서 리마인더 보내주세요
 
-- [ ] Code is formatted
-  ```bash
-  cargo fmt --all -- --check
-  ```
+### Q: 제 PR이 거절당했어요. 어떡하죠?
 
-- [ ] No Clippy warnings
-  ```bash
-  cargo clippy --all-targets --all-features -- -D warnings
-  ```
+**A**:
+- 거절 사유를 읽어보세요
+- 질문이 있으면 코멘트로 물어보세요
+- 수정 후 다시 제출하세요
+- 모든 거절은 배움의 기회입니다!
 
-- [ ] Documentation is updated
-- [ ] CHANGELOG.md is updated
-- [ ] Commit messages follow conventions
+### Q: Breaking change는 어떻게 처리하나요?
 
-### PR Template
-
-When creating a PR, fill out this template:
-
-```markdown
-## Description
-
-Brief description of what this PR does.
-
-## Motivation and Context
-
-Why is this change required? What problem does it solve?
-Fixes #(issue number)
-
-## How Has This Been Tested?
-
-Describe the tests you ran and their results.
-
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] Manual testing: (describe steps)
-
-## Types of Changes
-
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] Documentation update
-
-## Checklist
-
-- [ ] My code follows the code style of this project
-- [ ] My change requires a change to the documentation
-- [ ] I have updated the documentation accordingly
-- [ ] I have added tests to cover my changes
-- [ ] All new and existing tests passed
-- [ ] I have updated the CHANGELOG.md
-
-## Screenshots (if appropriate)
-
-## Additional Notes
-
-Any additional information for reviewers.
-```
-
-### Review Process
-
-**What to expect:**
-
-1. **Automated checks** (GitHub Actions):
-   - Build verification
-   - Test execution
-   - Lint checks
-   - Security scanning
-
-2. **Code review** by maintainers:
-   - Usually within 2-3 business days
-   - May request changes
-   - Approval from at least 1 maintainer required
-
-3. **Merge**:
-   - Squash and merge (default)
-   - All commits squashed into one
-   - PR title becomes commit message
-
-**Addressing feedback:**
-
-```bash
-# Make requested changes
-vim src/your_file.rs
-
-# Commit
-git add .
-git commit -m "fix: address review comments"
-
-# Push
-git push origin feature/123-your-feature
-
-# PR automatically updates
-```
-
-### After Merge
-
-1. **Delete your branch:**
-   ```bash
-   git branch -d feature/123-your-feature
-   git push origin --delete feature/123-your-feature
-   ```
-
-2. **Sync your fork:**
-   ```bash
-   git checkout main
-   git fetch upstream
-   git rebase upstream/main
-   git push origin main
-   ```
-
-3. **Celebrate! 🎉** You've contributed to Snailer!
+**A**:
+1. 먼저 이슈를 열어 논의하세요
+2. Deprecation 기간을 두세요 (1-2 릴리스)
+3. Migration 가이드를 작성하세요
+4. CHANGELOG에 명확히 표시하세요
 
 ---
 
-## Community
+## 리소스
 
-### Communication Channels
+### 공식 문서
+- [Rust Book](https://doc.rust-lang.org/book/) - Rust 기초
+- [Async Book](https://rust-lang.github.io/async-book/) - 비동기 프로그래밍
+- [Cargo Book](https://doc.rust-lang.org/cargo/) - 패키지 관리
 
-- **GitHub Issues**: Bug reports, feature requests
-  - Use issue templates
-  - Search before creating
-  - Provide minimal reproducible examples
+### 코딩 스타일
+- [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Google Engineering Practices](https://google.github.io/eng-practices/)
 
-- **GitHub Discussions**: Questions, ideas
-  - General questions
-  - Feature proposals
-  - Show and tell
-
-- **Discord**: Real-time chat
-  - Quick questions
-  - Community support
-  - Pair programming
-
-### Getting Help
-
-**Before asking:**
-1. Search existing issues and discussions
-2. Read relevant documentation
-3. Try to create a minimal reproducible example
-
-**When asking:**
-- Provide context (what you're trying to do)
-- Show what you've tried
-- Include error messages and stack traces
-- Specify your environment (OS, Rust version, etc.)
-
-**Good question example:**
-
-```markdown
-## Problem
-I'm trying to add a new tool but getting a compilation error.
-
-## Environment
-- OS: macOS 13.0
-- Rust: 1.75.0
-- Snailer: main branch (commit abc123)
-
-## What I tried
-1. Created `src/tools/http.rs`
-2. Added tool definition in `define_tools()`
-3. Added routing in `execute_tool()`
-
-## Error
-```
-error[E0277]: the trait bound `HttpTool: ToolExecutor` is not satisfied
-  --> src/tools/http.rs:45:10
-```
-
-## Code
-\`\`\`rust
-// Relevant code snippet
-\`\`\`
-
-## Question
-How do I properly implement the `ToolExecutor` trait?
-```
-
-### Recognition
-
-Contributors are recognized in:
-- [Contributors page](https://github.com/your-org/snailer/graphs/contributors)
-- Release notes
-- Annual contributor spotlight
-
----
-
-## Appendix
-
-### Useful Commands
-
-```bash
-# Development
-cargo watch -x check                 # Continuous compilation check
-cargo watch -x test                  # Continuous testing
-cargo watch -x 'run -- --help'       # Continuous run
-
-# Cleaning
-cargo clean                          # Remove build artifacts
-cargo clean --doc                    # Remove generated docs
-
-# Dependencies
-cargo tree                           # Show dependency tree
-cargo outdated                       # Check for outdated dependencies
-cargo audit                          # Security audit
-
-# Release
-cargo build --release                # Optimized build
-cargo bloat --release                # Binary size analysis
-```
-
-### Learning Resources
-
-**Rust:**
-- [The Rust Book](https://doc.rust-lang.org/book/)
-- [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
-- [Async Book](https://rust-lang.github.io/async-book/)
-
-**Testing:**
-- [Rust Testing Guide](https://doc.rust-lang.org/book/ch11-00-testing.html)
-- [Criterion.rs](https://github.com/bheisler/criterion.rs) (benchmarking)
-
-**Project-specific:**
+### Snailer 문서
 - [Agent Architecture](./AGENT_ARCHITECTURE.md)
 - [Tool System](./TOOL_SYSTEM.md)
 - [ACE System](./ACE_SYSTEM.md)
 
-### License
+---
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+## 라이선스
+
+이 프로젝트에 기여함으로써, 귀하의 기여가 프로젝트와 동일한 MIT 라이선스 하에 배포되는 것에 동의하게 됩니다.
 
 ---
 
-**Thank you for contributing to Snailer!** 🙏
+<div align="center">
 
-Your contributions make this project better for everyone.
+**🙏 기여해주셔서 감사합니다!**
 
-Questions? Reach out on [Discord](https://discord.gg/snailer) or open a [Discussion](https://github.com/your-org/snailer/discussions).
+모든 기여는 Snailer를 더 나은 도구로 만듭니다.
+
+[Website](https://snailer.ai) • [Documentation](./README.md) • [Issues](https://github.com/your-org/snailer/issues)
+
+</div>
