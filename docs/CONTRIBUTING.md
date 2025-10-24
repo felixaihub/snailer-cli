@@ -1,7 +1,7 @@
 # Snailer 기여 가이드
 
 > 🎯 **Snailer Public Repository 기여 가이드**
-> 실리콘밸리 빅테크 인턴십 수준의 오픈소스 기여 프로세스를 경험하세요.
+> 오픈소스 기여 프로세스를 경험하세요.
 
 **환영합니다!** 이 저장소는 Snailer CLI의 **배포, 문서, 패키징**을 위한 공개 저장소입니다. 핵심 에이전트 코드는 비공개이지만, 여러분의 기여로 Snailer를 더 많은 사용자에게 전달할 수 있습니다.
 
@@ -51,12 +51,6 @@ snailer/  (Private - Core Implementation)
 | 🔧 **도구 (Tooling)** | CI/CD, 릴리스 자동화, 이슈 관리 | GitHub Actions 워크플로우, 이슈 템플릿 |
 | 🌍 **커뮤니티 (Community)** | 사용자 지원, 피드백 수집, 에코시스템 | 예제 프로젝트, 플러그인 가이드 |
 
-### ❌ 기여 불가 영역
-
-- ❌ 핵심 에이전트 로직 (`src/agent.rs`, `src/tools/` 등)
-- ❌ API 클라이언트 코드 (`src/api/`)
-- ❌ ACE 알고리즘 구현 (`src/ace/`, `src/context/`)
-- ❌ 데이터베이스 스키마 (`src/db/`)
 
 **왜 Private인가요?**
 - 🔒 독점 알고리즘 및 최적화 보호
