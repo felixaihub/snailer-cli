@@ -345,7 +345,7 @@ pub async fn compact_context(&mut self) -> Result<()> {
 
 ## VS (Verification/Selection) 블록
 
-AI의 의사결정 과정을 투명하게 보여주는 시스템:
+AI의 의사결정 시스템:
 현재 비공개 상태입니다. -> private repo.
 
 **활용**:
