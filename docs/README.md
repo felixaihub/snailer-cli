@@ -84,21 +84,6 @@
 | [AGENT_ARCHITECTURE.md](./AGENT_ARCHITECTURE.md) | Core agent design and structure | Developers, Researchers | ✅ Active |
 | [TOOL_SYSTEM.md](./TOOL_SYSTEM.md) | Tool execution and extension | Developers | ✅ Active |
 | [ACE_SYSTEM.md](./ACE_SYSTEM.md) | Self-learning context system | Researchers, Advanced devs | ✅ Active |
-| [DOCUMENTATION_STATUS.md](./DOCUMENTATION_STATUS.md) | Implementation status report | Contributors | ✅ Active |
-
-### Reference Documentation
-
-| Document | Purpose | Status |
-|----------|---------|--------|
-| [reference/NEXT_ACTION_DSL.md](./reference/NEXT_ACTION_DSL.md) | DSL syntax reference | 📚 Reference |
-| [reference/runbook.md](./reference/runbook.md) | Operational procedures | 📚 Reference |
-| [reference/safety-approval.md](./reference/safety-approval.md) | Safety guidelines | 📚 Reference |
-
-### Experimental Features
-
-| Document | Purpose | Status |
-|----------|---------|--------|
-| [experimental/prompts/VS_PROMPTS.md](./experimental/prompts/VS_PROMPTS.md) | VS prompt concepts | 🧪 Experimental |
 
 ---
 
