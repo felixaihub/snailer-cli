@@ -103,7 +103,7 @@ The following are kept in the private repository:
 
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: Questions and ideas
-- **Inflearn**: [https://www.inflearn.com/course/%EB%AF%B8%EA%B5%AD-%EB%B9%85%ED%85%8C%ED%81%AC-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%94%94%EC%9E%90%EC%9D%B8%EC%84%A4%EA%B3%84](Inflearn - 실리콘밸리 빅테크 30개의 실전 시스템 디자인 완성 코스)
+- **Inflearn**: [Inflearn - 실리콘밸리 빅테크 30개의 실전 시스템 디자인 완성 코스](https://www.inflearn.com/course/%EB%AF%B8%EA%B5%AD-%EB%B9%85%ED%85%8C%ED%81%AC-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EB%94%94%EC%9E%90%EC%9D%B8%EC%84%A4%EA%B3%84)
 
 ---
 
