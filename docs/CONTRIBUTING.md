@@ -878,7 +878,7 @@ Closes #(이슈 번호)
 ```
 **Contributors**:
 
-### 뱃지 & 레벨
+#### 뱃지 & 레벨
 
 | 기여 횟수 | 레벨 | 뱃지 |
 |----------|------|------|
@@ -887,30 +887,28 @@ Closes #(이슈 번호)
 | 16-30 PR | 🥇 골드 | Gold Contributor |
 | 31+ PR | 💎 다이아몬드 | Diamond Contributor |
 
-### 개인 이력서에 추가
+#### 개인 이력서에 추가
 기여한 사항에 대해 이력서에 추가하여 오픈소스 활동을 채용담당자에게 어필할 수 있습니다. 
 
-### 스레드, Substack SNS 에 소개 
+#### 스레드, Substack SNS 에 소개 
 스레드 3.3k + 오픈소스 활동에 대해 상위 기여자를 선정하여 동의하에 
 이름과 링크드인, 이력서 등을 원하는 정보를 공개할 수 있습니다. 
 
-### 미국 실리콘밸리 팔로알토 현지 인턴십 6개월 채용 공고 (2026년 2월전까지 서류 지원후 인터뷰 진행)   
+#### 미국 실리콘밸리 팔로알토 현지 인턴십 6개월 채용 공고 (2026년 2월전까지 서류 지원후 인터뷰 진행)   
 
-Job Title: Software Engineering Intern – 6-Month (Paid)
-Location: Palo Alto, California, USA (On-site)
-Duration: 6 months internship, starting 2026 하반기 
-Working Hours: ~ 40 hours/week (flexible between 30–40 hrs)
-Compensation: Hourly wage commensurate with Bay Area intern market (~USD $ 45 per hour)
-Visa Sponsorship: J1 Visa 
-Apply Timeline: ~ Feb 2026
+- Job Title: Software Engineering Intern – 6-Month (Paid)
+- Location: Palo Alto, California, USA (On-site)
+- Duration: 6 months internship, starting 2026 Fall 
+- Working Hours: ~ 40 hours/week (flexible between 30–40 hrs)
+- Compensation: Hourly wage commensurate with Bay Area intern market (~USD $ 45 per hour)
+- Visa Sponsorship: J1 Visa 
+- Apply Timeline: ~ Feb 2026
 
-Proficiency in at least one systems language: 
-Rust, Go, C++, or Swift (iOS).
-
-Prior experience or strong interest in CLI tool development and/or iOS app development.
-Clear English communication ability (spoken & written) and ability to collaborate with fast-paced teams.
-Enrolled in or recently graduated from a bachelor’s or master’s degree program in Computer Science, Software Engineering or related field.
-Completed or currently enrolled in the “Silicon Valley Survivor / Inflearn System Design” lecture series (or equivalent) — demonstrating your system-design mindset and readiness for startup-scale engineering.
+- Proficiency in at least one systems language: Rust, Go, C++, or Swift (iOS).
+- Prior experience or strong interest in CLI tool development and/or iOS app development.
+- Clear English communication ability (spoken & written) and ability to collaborate with fast-paced teams.
+- Enrolled in or recently graduated from a bachelor’s or master’s degree program in Computer Science, Software Engineering or related field.
+- Completed or currently enrolled in the “Silicon Valley Survivor / Inflearn System Design” lecture series (or equivalent) — demonstrating your system-- design mindset and readiness for startup-scale engineering.
 
 ### 커뮤니티 채널
 
