@@ -896,7 +896,7 @@ Closes #(이슈 번호)
 
 #### 미국 실리콘밸리 팔로알토 현지 인턴십 6개월 채용 공고 (2026년 2월전까지 서류 지원후 인터뷰 진행)   
 
-- Job Title: Software Engineering Intern – 6-Month (Paid)
+- Job Title: Software Engineering Intern 6-Month (Paid)
 - Location: Palo Alto, California, USA (On-site)
 - Duration: 6 months internship, starting 2026 Fall 
 - Working Hours: ~ 40 hours/week (flexible between 30–40 hrs)
