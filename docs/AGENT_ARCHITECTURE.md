@@ -503,22 +503,12 @@ mod tests {
 }
 ```
 
-### 📋 Pull Request 체크리스트
-
-- [ ] 코드가 `cargo fmt`로 포맷되어 있음
-- [ ] `cargo clippy`로 린트 통과
-- [ ] 테스트 추가 및 통과
-- [ ] 문서 업데이트 (필요시)
-- [ ] 변경 사항을 CHANGELOG.md에 추가
-
 ---
 
 ## 다음 단계
 
 - [도구 시스템 상세 가이드](./TOOL_SYSTEM.md)
 - [ACE 컨텍스트 관리](./ACE_SYSTEM.md)
-- [실행 모드 비교](./EXECUTION_MODES.md)
-- [데이터베이스 스키마](./DATABASE_SCHEMA.md)
 
 ---
 
