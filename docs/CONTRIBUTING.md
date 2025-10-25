@@ -874,10 +874,9 @@ Closes #(이슈 번호)
 
 - [@your-username](https://github.com/your-username) - 한국어 번역
 - [@contributor2](https://github.com/contributor2) - npm 패키징 개선
-```
 
-**Contributors 그래프**:
-https://github.com/your-org/snailer-cli/graphs/contributors
+```
+**Contributors**:
 
 ### 뱃지 & 레벨
 
@@ -888,12 +887,35 @@ https://github.com/your-org/snailer-cli/graphs/contributors
 | 16-30 PR | 🥇 골드 | Gold Contributor |
 | 31+ PR | 💎 다이아몬드 | Diamond Contributor |
 
+### 개인 이력서에 추가
+기여한 사항에 대해 이력서에 추가하여 오픈소스 활동을 채용담당자에게 어필할 수 있습니다. 
+
+### 스레드, Substack SNS 에 소개 
+스레드 3.3k + 오픈소스 활동에 대해 상위 기여자를 선정하여 동의하에 
+이름과 링크드인, 이력서 등을 원하는 정보를 공개할 수 있습니다. 
+
+### 미국 실리콘밸리 팔로알토 현지 인턴십 6개월 채용 공고 (2026년 2월전까지 서류 지원후 인터뷰 진행)   
+
+Job Title: Software Engineering Intern – 6-Month (Paid)
+Location: Palo Alto, California, USA (On-site)
+Duration: 6 months internship, starting 2026 하반기 
+Working Hours: ~ 40 hours/week (flexible between 30–40 hrs)
+Compensation: Hourly wage commensurate with Bay Area intern market (~USD $ 45 per hour)
+Visa Sponsorship: J1 Visa 
+Apply Timeline: ~ Feb 2026
+
+Proficiency in at least one systems language: 
+Rust, Go, C++, or Swift (iOS).
+
+Prior experience or strong interest in CLI tool development and/or iOS app development.
+Clear English communication ability (spoken & written) and ability to collaborate with fast-paced teams.
+Enrolled in or recently graduated from a bachelor’s or master’s degree program in Computer Science, Software Engineering or related field.
+Completed or currently enrolled in the “Silicon Valley Survivor / Inflearn System Design” lecture series (or equivalent) — demonstrating your system-design mindset and readiness for startup-scale engineering.
+
 ### 커뮤니티 채널
 
 - **GitHub Discussions**: 질문, 아이디어 공유
 - **Discord**: 실시간 채팅 (준비 중)
-- **Twitter**: @snailer_ai (공지사항)
-
 ---
 
 ## 자주 묻는 질문 (FAQ)
@@ -929,7 +951,7 @@ https://github.com/your-org/snailer-cli/graphs/contributors
 **A**: 보통 2-3일 내 리뷰됩니다.
 
 - 1주일 이상: PR에 친절하게 핑(ping) 해주세요
-- 긴급한 경우: Discord에서 멘션
+- 긴급한 경우: 인프런 커뮤니티 또는 이메일
 
 ---
 
@@ -950,7 +972,7 @@ https://github.com/your-org/snailer-cli/graphs/contributors
 - 괴롭힘
 - 개인 정보 무단 공개
 
-**위반 신고**: conduct@snailer.dev
+**위반 신고**: opensource@snailer.ai
 
 ---
 
@@ -984,8 +1006,7 @@ https://github.com/your-org/snailer-cli/graphs/contributors
 **🎉 기여를 환영합니다!**
 
 작은 기여도 큰 영향을 줍니다. 오타 수정 하나도, 번역 한 문장도 모두 소중합니다.
-
-궁금한 점이 있으면 언제든 이슈를 열거나 Discord에서 물어보세요!
+궁금한 점이 있으면 언제든 이슈를 열거나 Inflearn 인프런 또는 Github, 이메일에서 물어보세요!
 
 ---
 
