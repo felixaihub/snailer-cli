@@ -33,23 +33,6 @@
   - Generator → Reflector → Curator 사이클
   - 자기 학습 메커니즘
 
-### Additional Resources
-
-- **[Documentation Status](./DOCUMENTATION_STATUS.md)**
-  - Implementation status of all documented features
-  - What's implemented vs. planned vs. reference-only
-
-- **[Reference Documentation](./reference/)**
-  - NEXT_ACTION_DSL.md - DSL syntax reference
-  - runbook.md - Operational procedures
-  - safety-approval.md - Safety guidelines
-
-- **[Experimental Features](./experimental/)**
-  - VS_PROMPTS.md - Verification/Selection prompt concepts
-  - Features under development or research
-
----
-
 ## 🚀 Quick Navigation
 
 ### For New Contributors
