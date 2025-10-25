@@ -115,4 +115,4 @@ All documentation is under MIT License.
 
 **Happy Learning! 🎉**
 
-If you have questions, feel free to open a Discussion or join our Discord!
+If you have questions, feel free to open a Discussion or join our community!
