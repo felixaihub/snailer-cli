@@ -908,7 +908,7 @@ Closes #(이슈 번호)
 - Prior experience or strong interest in CLI tool development and/or iOS app development.
 - Clear English communication ability (spoken & written) and ability to collaborate with fast-paced teams.
 - Enrolled in or recently graduated from a bachelor’s or master’s degree program in Computer Science, Software Engineering or related field.
-- Completed or currently enrolled in the “Silicon Valley Survivor / Inflearn System Design” lecture series (or equivalent) — demonstrating your system-- design mindset and readiness for startup-scale engineering.
+- Completed or currently enrolled in the “Silicon Valley Survivor / Inflearn System Design” lecture series (or equivalent) — demonstrating your system-- design mindset and readiness for startup-scale engineering. (인프런 미국 달팽이 / 시스템 디자인 강의 수강생일 것)
 
 ### 커뮤니티 채널
 
